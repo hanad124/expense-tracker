@@ -1,0 +1,23 @@
+.filter{
+    box-shadow: 0 0 3px gray;
+}
+
+
+.active-table-icon{
+    color: black;
+}
+
+
+.table-icon{
+    color: lightgray
+}
+
+
+.active-analytics-icon{
+    color: black
+}
+
+
+.analytics-icon{
+    color: lightgray;
+}
