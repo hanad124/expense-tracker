@@ -1,4 +1,4 @@
-# Expense-Tracker-Website
+# Expense-Tracker
 
 A spending tracker helps manage finances effectively, but not everyone has the time or skills to handle their finances effectively. It streamlines expenses tracking and saves time, making it a valuable tool in daily life.
 
