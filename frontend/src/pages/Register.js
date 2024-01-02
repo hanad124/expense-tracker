@@ -1,104 +1,128 @@
-import React from 'react'
-import {Container, Row, Col} from 'react-bootstrap'
-import {Form, Input, message} from 'antd'
-import {Link, useNavigate} from 'react-router-dom'
-import { registerUser } from '../apicalls/users';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../apicalls/users";
+import { HiOutlineCreditCard } from "react-icons/hi";
 
 function Register() {
   const navigate = useNavigate();
   const validateMessages = {
-        required: '${label} is required!',
-        types: {
-          email: 'Entered ${label} is not a valid email!',
-        },
+    required: "${label} is required!",
+    types: {
+      email: "Entered ${label} is not a valid email!",
+    },
   };
-  const onFinish = async(values) => {
-     const userObj = {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-     }
-     try{
-       if(values.password===values.confirmPassword){
-        message.loading("Registering New User...",0.5)
+  const onFinish = async (values) => {
+    const userObj = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    };
+    try {
+      if (values.password === values.confirmPassword) {
+        message.loading("Registering New User...", 0.5);
         const response = await registerUser(userObj);
-        if(response.success){
-            setTimeout(()=>{
-             message.success(response.message);
-             navigate("/login");
-            },500)
+        if (response.success) {
+          setTimeout(() => {
+            message.success(response.message);
+            navigate("/login");
+          }, 500);
+        } else {
+          setTimeout(() => {
+            message.error(response.message);
+          }, 500);
         }
-        else{
-            setTimeout(()=>{
-                message.error(response.message);
-            },500)
-        }
-       }
-       else{
-        setTimeout(()=>{
-            message.error("Entered Passwords don't match.");
-        },500)
-       }
-     }
-     catch(error){
-        setTimeout(()=>{
-            message.error(error.message);
-        },500)
-     }
-  }
+      } else {
+        setTimeout(() => {
+          message.error("Entered Passwords don't match.");
+        }, 500);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        message.error(error.message);
+      }, 500);
+    }
+  };
   return (
-    <Container className='p-5 register' data-aos="fade-up">
-       <Row className='d-flex justify-content-center align-items-center shadow-lg p-5 bg-white' data-aos="fade-down">
-        <Col md={6}>
-         <div data-aos="fade-up">
-         {/* <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_cohxzcyi.json"  background="transparent"  speed="1"  style={{width:"80%",height:"80%"}}  loop  autoplay></lottie-player> */}
-         <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_yqyt4zdn.json"  background="transparent"  speed="1"  style={{width:"80%",height:"80%"}}  loop  autoplay></lottie-player>
-         </div>
-        </Col>
-        <Col md={6}>
-            <div data-aos="fade-up" className='mt-2'>
-            <h1>Register <i className="ri-user-add-line"></i></h1>
-            <hr/>
+    <Container className=" md:p-5" data-aos="fade-up">
+      <div data-aos="fade-down" className=" w-full flex justify-center">
+        <div className="bg-white max-w-fit p-10 rounded-md">
+          <div data-aos="" className="">
+            <p className="text-2xl md:text-xl text-center font-bold text-slate-700 tracking-widest uppercase px-3">
+              create account
+            </p>
+          </div>
+          <Form
+            layout="vertical"
+            className="mt-4"
+            onFinish={onFinish}
+            validateMessages={validateMessages}
+          >
+            <Form.Item
+              label="Name"
+              name="name"
+              data-aos="fade-up"
+              className=""
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input className="w-full md:min-w-80 h-full border py-2 " />
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              data-aos="fade-up"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                },
+              ]}
+            >
+              <Input className="w-full md:min-w-80 h-full border py-2 " />
+            </Form.Item>
+            <Form.Item
+              label="Password"
+              name="password"
+              data-aos="fade-up"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input.Password className="w-full md:min-w-80 h-full py-[5px]" />
+            </Form.Item>
+            <Form.Item
+              label="Confirm Password"
+              name="confirmPassword"
+              data-aos="fade-up"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input.Password className="w-full md:min-w-80 h-full py-[5px]" />
+            </Form.Item>{" "}
+            <button
+              className="primary btn bg-primary text-white w-full mt-2"
+              type="submit"
+            >
+              Register
+            </button>
+            <div className="flex justify-between align-center mt-2">
+              <Link to="/login">Already Registered, Click here to Login</Link>
             </div>
-            <Form layout="vertical" className='mt-4' onFinish={onFinish} validateMessages={validateMessages}>
-                <Form.Item label="Name" name="name" data-aos="fade-up" rules={[{
-                  required: true,
-                 },
-                ]}>
-                    <Input/>
-                </Form.Item>
-                <Form.Item label="Email" name="email" data-aos="fade-up" rules={[{
-                  required: true,
-                  type: 'email'
-                 },
-                ]}>
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Password" name="password" data-aos="fade-up" 
-                 rules={[{
-                  required: true,
-                 },
-                ]}
-                >
-                    <Input.Password/>
-                </Form.Item>
-                <Form.Item label="Confirm Password" name="confirmPassword" data-aos="fade-up"
-                 rules={[{
-                  required: true,
-                 },
-                ]}
-                >
-                    <Input.Password/>
-                </Form.Item>
-                <div className='d-flex justify-content-between align-items-center' data-aos="fade-up">
-                  <Link to="/login">Already Registered, Click here to Login</Link>
-                  <button className='primary btn btn-danger' type="submit">Register</button>
-                </div>
-            </Form>
-        </Col>
-       </Row>
+          </Form>
+        </div>
+      </div>
     </Container>
-  )
+  );
 }
 
-export default Register
+export default Register;

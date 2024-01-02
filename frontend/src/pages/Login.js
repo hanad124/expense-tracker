@@ -39,16 +39,17 @@ function Login() {
     }
   };
   return (
-    <div className="md:p-5 pd-1  " data-aos="fade-up">
+    <div className="md:p-5  " data-aos="fade-up">
       <div className=" w-full flex justify-center">
         <div className="bg-white max-w-fit p-10 rounded-md">
           <div data-aos="" className="">
-            <h1 className="flex items-center text-center gap-2 ">
-              <HiOutlineCreditCard className="text-3xl text-slate-700" />
-              <span className="md:text-2xl font-bold text-slate-700 tracking-widest">
-                EXPENSE TRACKER
-              </span>
-            </h1>
+            {/* <h1 className="flex items-center text-center gap-2 "> */}
+            {/* <HiOutlineCreditCard className="text-3xl text-slate-700" /> */}
+            <p className="text-2xl font-bold text-slate-700 tracking-widest uppercase">
+              {/* EXPENSE TRACKER */}
+              login
+            </p>
+            {/* </h1> */}
             <h1 className="text-xl text-left font-bold text-slate-600 mt-4 tracking-widest">
               Welcome Back 👋
             </h1>
@@ -71,7 +72,7 @@ function Login() {
               ]}
             >
               <Input
-                className="border focus:border-blue-600 py-[7px] "
+                className="border focus:border-blue-600 py-[7px] w-full md:min-w-80 h-full  "
                 placeholder="email@gmail.com"
               />
             </Form.Item>
@@ -86,7 +87,7 @@ function Login() {
               ]}
             >
               <Input.Password
-                className=" py-[7px] "
+                className=" py-[7px] w-full md:min-w-80 h-full "
                 placeholder="* * * * * *"
               />
             </Form.Item>{" "}
