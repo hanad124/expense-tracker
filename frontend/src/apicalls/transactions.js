@@ -10,7 +10,6 @@ export const addTransaction = async(payload) => {
     }
 }
 
-
 export const editTransaction = async(payload) => {
   try{
     const response = await axiosInstance.put('/api/transactions/editTransaction',payload);
@@ -20,7 +19,6 @@ export const editTransaction = async(payload) => {
     return error.response.data
   }
 }
-
 
 export const deleteTransaction = async(payload) => {
   try{
