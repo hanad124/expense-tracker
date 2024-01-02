@@ -30,13 +30,21 @@ function DefaultLayout({ children }) {
     setShow(true);
   };
   return (
-    <div className="layout">
-      <div className="header d-flex justify-content-between">
-        <div>
-          <h1 className="logo">
-            <i className="ri-wallet-3-fill"></i> Expense Tracker
-          </h1>
-        </div>
+    <div className="">
+      <div className=" flex justify-between items-center bg-primary py-3 px-2 md:px-16 ">
+        <h1
+          className="
+          text-white 
+          font-bold
+          tracking-widest
+          uppercase
+          text-lg
+          cursor-pointer
+          md:text-2xl"
+          onClick={() => navigate("/")}
+        >
+          Expense Tracker
+        </h1>
         <div className="flex align-items-center text-white">
           <div className="flex items-center text-white border rounded-md">
             <DropdownMenu>
@@ -97,9 +105,7 @@ function DefaultLayout({ children }) {
           handleShow={handleShow}
         />
       )}
-      <Container className="shadow-lg py-5 bg-body-tertiary rounded mt-10">
-        {children}
-      </Container>
+      <Container className=" py-5 rounded mt-10">{children}</Container>
     </div>
   );
 }

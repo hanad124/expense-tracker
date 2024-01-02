@@ -4,6 +4,7 @@ import { Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../apicalls/users";
 import { HiOutlineCreditCard } from "react-icons/hi";
+import { LuExternalLink } from "react-icons/lu";
 
 function Login() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function Login() {
               login
             </p>
             {/* </h1> */}
-            <h1 className="text-xl text-left font-bold text-slate-600 mt-4 tracking-widest">
+            <h1 className="text-lg text-left font-medium text-slate-600 mt-4 tracking-widest">
               Welcome Back 👋
             </h1>
           </div>
@@ -72,7 +73,7 @@ function Login() {
               ]}
             >
               <Input
-                className="border focus:border-blue-600 py-[7px] w-full md:min-w-80 h-full  "
+                className="border focus:border-blue-600 py-[9px] w-full md:min-w-80 h-full  "
                 placeholder="email@gmail.com"
               />
             </Form.Item>
@@ -98,21 +99,29 @@ function Login() {
               Login
             </button>
             <div
-              className="flex justify-between items-center mt-4"
+              className="flex gap-1 items-center mt-4 text-primary"
               // data-aos="fade-up"
             >
-              <Link to="/register">Not Registered, Click here to Register</Link>
+              <Link to="/register" className="cursor-pointer">
+                Not Registered, Click here to Register
+              </Link>
+              <LuExternalLink className="" />
             </div>
-            <div className="mt-2" data-aos="fade-up">
+            <div
+              className="mt-2 flex items-center gap-1 text-primary"
+              data-aos="fade-up"
+            >
               <Link to="/verifyEmailLink">
                 Not Verified Yet, Verify your Account here
               </Link>
+              <LuExternalLink className="" />
             </div>
             <div
-              className="mt-2 "
+              className="mt-2 flex items-center gap-1 text-primary "
               // data-aos="fade-up "
             >
               <Link to="/resetPasswordLink ">Forgot Password?</Link>
+              <LuExternalLink className="" />
             </div>
           </Form>
         </div>
