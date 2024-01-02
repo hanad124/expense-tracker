@@ -1,19 +1,26 @@
-.register{
-    height: 100vh !important;
-    background-image: linear-gradient(to right, #b3ffab 0%, #12fff7 100%);
+.register {
+  height: 100vh !important;
+  /* i want linear gradient with image behind it */
+  background: linear-gradient(0deg, rgba(7, 26, 70, 0.8), rgba(3, 9, 31, 0.8)),
+    url("../../public/bg-img.jpeg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.register input{
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(107, 107, 107, 0.696);
+.register input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(107, 107, 107, 0.696);
 }
 
-input:focus{
-    outline: none !important;
-    box-shadow: none !important;
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-a{
-    text-decoration: none !important;
+a {
+  text-decoration: none !important;
 }

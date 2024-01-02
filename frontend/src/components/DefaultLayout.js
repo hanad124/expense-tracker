@@ -76,7 +76,7 @@ function DefaultLayout({ children }) {
                       dispatch(removeUserInfo());
                       message.success("Your Logged Out Successfully");
                       localStorage.removeItem("token");
-                      navigate("/");
+                      navigate("/login");
                     }, 500);
                   }}
                   className="flex gap-1 cursor-pointer items-center text-slate-600"

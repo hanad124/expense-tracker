@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react'
-import { Container } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-function PublicRoute({children}) {
+function PublicRoute({ children }) {
   const navigate = useNavigate();
-  useEffect(()=>{
-   if(localStorage.getItem("token")){
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
       navigate("/home");
-   }
-  },[])
+    }
+  }, []);
   return (
-    <Container fluid={true} className='register m-0 p-0'>
-        {children}
-    </Container>
-  )
+    <div fluid={true} className="register m-0 p-0">
+      {children}
+    </div>
+  );
 }
 
-export default PublicRoute
+export default PublicRoute;

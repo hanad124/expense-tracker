@@ -10,7 +10,6 @@ import moment from "moment";
 import { Container, Row, Col } from "react-bootstrap";
 import { BiPlusCircle } from "react-icons/bi";
 
-
 import {
   UnorderedListOutlined,
   AreaChartOutlined,
@@ -175,9 +174,9 @@ function Home() {
   return (
     <DefaultLayout>
       <div className="border rounded-md">
-        <div className="filter flex flex-wrap md:align-items-center px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
+        <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
           <div className="flex flex-wrap gap-3 flex-1 items-center ">
-            <div className="flex flex-column w-full md:w-auto">
+            <div className="flex flex-column w-full md:w-64 ">
               {/* <h5>Select Frequency</h5> */}
               <Select
                 onChange={(value) => setFrequency(value)}
@@ -206,7 +205,7 @@ function Home() {
               </Select>
             </div>
             {/* Search input  */}
-            <div className="flex flex-column w-full md:w-auto ">
+            <div className="flex flex-column w-full md:w-auto md:min-w-72">
               {/* <h5>Search</h5> */}
               <input
                 className="form-control"
@@ -216,8 +215,8 @@ function Home() {
               />
             </div>
           </div>
-          <div className="flex justify-start gap-2">
-            <div className="flex gap-3 border border-dark-subtle rounded mx-2 p-2">
+          <div className="flex justify-start gap-2 h-full">
+            <div className="flex justify-between border border-dark-subtle rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
               <UnorderedListOutlined
                 className={`pointer ${
                   viewType === "table" ? "active-table-icon" : "table-icon"
@@ -234,7 +233,7 @@ function Home() {
               />
             </div>
             <button
-              className="btn bg-primary text-white"
+              className="btn bg-primary text-white w-full md:w-auto h-full"
               onClick={() => setShowAddTransactionModel(true)}
             >
               Add New
