@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../apicalls/users";
-import { HiOutlineCreditCard } from "react-icons/hi";
+import { LuExternalLink } from "react-icons/lu";
 
 function Register() {
   const navigate = useNavigate();
@@ -115,8 +115,12 @@ function Register() {
             >
               Register
             </button>
-            <div className="flex justify-between align-center mt-2">
+            <div
+              className="-mb-4 mt-2 flex items-center gap-1 text-primary"
+              data-aos=""
+            >
               <Link to="/login">Already Registered, Click here to Login</Link>
+              <LuExternalLink className="" />
             </div>
           </Form>
         </div>

@@ -31,7 +31,7 @@ function DefaultLayout({ children }) {
   };
   return (
     <div className="">
-      <div className=" flex justify-between items-center bg-primary py-3 px-2 md:px-16 ">
+      <div className=" flex justify-between items-center bg-primary/95 py-3 px-[10px] md:px-16 ">
         <h1
           className="
           text-white 

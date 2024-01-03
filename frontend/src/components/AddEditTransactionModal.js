@@ -131,6 +131,10 @@ function AddEditTransactionModal(props) {
                 label: "Food",
               },
               {
+                value: "shopping",
+                label: "Shopping",
+              },
+              {
                 value: "entertainment",
                 label: "Entertainment",
               },

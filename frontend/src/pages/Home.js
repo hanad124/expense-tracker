@@ -216,7 +216,7 @@ function Home() {
             </div>
           </div>
           <div className="flex justify-start gap-2 h-full">
-            <div className="flex justify-between border border-dark-subtle rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
+            <div className="flex justify-between border rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
               <UnorderedListOutlined
                 className={`pointer ${
                   viewType === "table" ? "active-table-icon" : "table-icon"
