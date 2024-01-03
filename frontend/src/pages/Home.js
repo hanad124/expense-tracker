@@ -7,8 +7,17 @@ import {
   getAllTransactionsOfUser,
 } from "../apicalls/transactions";
 import moment from "moment";
-import { Container, Row, Col } from "react-bootstrap";
-import { BiPlusCircle } from "react-icons/bi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../components/ui/alert-dialog";
 
 import {
   UnorderedListOutlined,
@@ -30,6 +39,7 @@ function Home() {
   const [showEditTransactionObject, setShowEditTransactionObject] =
     useState(null);
   const [searchText, setSearchText] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const getTransactionsData = async () => {
     message.loading("Fetching all your transactions...", 0.5);
@@ -55,7 +65,29 @@ function Home() {
       }, 500);
     }
   };
-  const deleteSelectedTransaction = async (payload) => {
+  // const deleteSelectedTransaction = async (payload) => {
+  //   message.loading("Deleting the selected transaction...", 0.5);
+  //   try {
+  //     const response = await deleteTransaction(payload);
+  //     if (response.success) {
+  //       setTimeout(() => {
+  //         message.success(response.message);
+  //         getTransactionsData();
+  //       }, 500);
+  //     } else {
+  //       setTimeout(() => {
+  //         message.info(response.message);
+  //       }, 500);
+  //     }
+  //   } catch (error) {
+  //     setTimeout(() => {
+  //       message.error(error.message);
+  //     }, 500);
+  //   }
+  // };
+
+  const handleDeleteConfirmation = async (payload) => {
+    setIsOpen(false);
     message.loading("Deleting the selected transaction...", 0.5);
     try {
       const response = await deleteTransaction(payload);
@@ -75,6 +107,7 @@ function Home() {
       }, 500);
     }
   };
+
   useEffect(() => {
     getTransactionsData();
   }, [frequency, selectedRange, type]);
@@ -139,11 +172,32 @@ function Home() {
                 setShowAddTransactionModel(true);
               }}
             />
-            <DeleteOutlined
-              onClick={() => {
-                deleteSelectedTransaction(record);
-              }}
-            />
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <DeleteOutlined
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirmation!</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete this transaction?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex items-center">
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDeleteConfirmation(record)}
+                    className="-mb-1"
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         );
       },
