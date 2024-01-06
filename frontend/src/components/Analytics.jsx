@@ -37,6 +37,7 @@ function Analytics({ transactions }) {
     "education",
     "investment",
     "travel",
+    "shopping",
     "tax",
   ];
   return (
@@ -49,13 +50,17 @@ function Analytics({ transactions }) {
           <div className=" flex-1">
             <div className="mb-5 border rounded p-4">
               <div>
-                <h4 className="border-b pb-2 mb-5 text-slate-700 ">
+                <p className="border-b pb-2 mb-5 text-slate-700  text-xl">
                   Total Transactions :{" "}
                   <span className="font-bold">{totalTransactions}</span>
-                </h4>
+                </p>
                 <div className="d-flex justify-content-around gap-3">
-                  <h5>Income : {totalIncomeTransactions.length}</h5>
-                  <h5>Expense : {totalExpenseTransactions.length}</h5>
+                  <p className=" text-slate-700 ">
+                    Income : {totalIncomeTransactions.length}
+                  </p>
+                  <p className=" text-slate-700 ">
+                    Expense : {totalExpenseTransactions.length}
+                  </p>
                 </div>
               </div>
               <div className="d-flex gap-3 justify-content-around">
@@ -75,13 +80,17 @@ function Analytics({ transactions }) {
           <div className=" flex-1">
             <div className="mb-5 border rounded p-4">
               <div>
-                <h4 className="border-b pb-2 mb-5 text-slate-700 ">
+                <p className="border-b pb-2 mb-5 text-slate-700 text-xl ">
                   Total Turnover :{" "}
                   <span className="font-bold">${totalTurnover}</span>
-                </h4>
+                </p>
                 <div className="d-flex justify-content-around gap-3">
-                  <h5>Income : {totalIncomeTurnover}</h5>
-                  <h5>Expense : {totalExpenseTurnover}</h5>
+                  <p className=" text-slate-700 ">
+                    Income : {totalIncomeTurnover}
+                  </p>
+                  <p className=" text-slate-700 ">
+                    Expense : {totalExpenseTurnover}
+                  </p>
                 </div>
               </div>
               <div className="d-flex gap-3 justify-content-around">
@@ -103,12 +112,14 @@ function Analytics({ transactions }) {
           <div className="flex-1">
             <div className="mb-5 border rounded p-4">
               <div>
-                <h4 className="border-b pb-2  text-slate-700 ">
+                <p className="border-b pb-2 text-xl text-slate-700 ">
                   Income - Category Wise
-                </h4>
+                </p>
                 {totalIncomeTransactions.length === 0 && (
                   <div className=" border-bottom p-3">
-                    <h5>No Category Transactions To Display</h5>
+                    <p className="text-sm text-center  text-slate-700 ">
+                      No Category Transactions To Display
+                    </p>
                   </div>
                 )}
                 {categories.map((category) => {
@@ -139,12 +150,14 @@ function Analytics({ transactions }) {
           <div className="flex-1">
             <div className="mb-5 border  rounded p-4">
               <div>
-                <h4 className="border-b pb-2 m text-slate-700 ">
+                <p className="border-b pb-2 text-xl text-slate-700 ">
                   Expense - Category Wise
-                </h4>
+                </p>
                 {totalExpenseTransactions.length === 0 && (
                   <div className=" border-bottom p-3">
-                    <h5>No Category Transactions To Display</h5>
+                    <p className=" text-slate-700 text-sm text-center">
+                      No Category Transactions To Display
+                    </p>
                   </div>
                 )}
                 {categories.map((category) => {

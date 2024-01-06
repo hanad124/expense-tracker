@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const Transaction = require("./transactionModel")
+const Transaction = require("./transactionModel");
+const Category = require("./categoryModel");
 
 const userSchema = mongoose.Schema(
   {
@@ -35,10 +36,16 @@ const userSchema = mongoose.Schema(
 );
 
 // remove all the transactions associated with an user if that user is deleted
-userSchema.post('remove',async function(res, next){
-  await Transaction.deleteMany({user: this._id});
+userSchema.post("remove", async function (res, next) {
+  await Transaction.deleteMany({ user: this._id });
   next();
-})
+});
+
+// remove all the categories associated with an user if that user is deleted
+userSchema.post("remove", async function (res, next) {
+  await Category.deleteMany({ user: this._id });
+  next();
+});
 
 const userModel = mongoose.model("users", userSchema);
 

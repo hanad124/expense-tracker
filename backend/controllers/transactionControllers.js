@@ -52,6 +52,7 @@ const getAllTransactionsOfUser = async (req, res) => {
         success: true,
       });
     } else {
+      // No Transactions to display
       res.send({
         data: null,
         message: "No Transactions to display",

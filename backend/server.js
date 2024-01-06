@@ -7,7 +7,7 @@ const db = require("./config/db");
 const port = process.env.PORT || 5000;
 const userRoute = require("./routes/userRoutes");
 const transactionRoute = require("./routes/transactionRoutes");
-
+const categoryRoute = require("./routes/categoryRoutes");
 
 // app.use(cors());
 app.use(
@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoute);
 app.use("/api/transactions", transactionRoute);
+app.use("/api/categories", categoryRoute);
 
 const _dirname = path.resolve();
 app.use(express.static(path.join(_dirname, "/frontend/build")));

@@ -320,6 +320,32 @@ const updateUserPassword = async (req, res) => {
   }
 };
 
+// get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (users) {
+      res.send({
+        data: users,
+        message: `All Users fetched Successfully`,
+        success: true,
+      });
+    } else {
+      res.send({
+        data: null,
+        message: `No Users to display`,
+        success: true,
+      });
+    }
+  } catch (error) {
+    res.send({
+      data: error,
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
 module.exports = {
   login,
   register,
@@ -331,4 +357,5 @@ module.exports = {
   updateProfile,
   updateUserEmail,
   updateUserPassword,
+  getAllUsers,
 };

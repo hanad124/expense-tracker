@@ -8,6 +8,7 @@ import { message } from "antd";
 import Profile from "./Profile";
 import { BiUserCircle, BiMailSend, BiLockAlt } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
+import logo from "../assets/header-icon.png";
 
 import {
   DropdownMenu,
@@ -16,13 +17,30 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu";
+} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 function DefaultLayout({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const { user } = useSelector((state) => state.getUserInfoReducer);
+
+  const name = user?.name;
+
+  let initials = "";
+  if (name) {
+    const words = name.split(/\s+/); // Split by whitespace to handle multiple spaces
+
+    // Check if there are words to create initials
+    if (words.length > 0) {
+      initials = words
+        .slice(0, 2) // Take the first two words
+        .map((word) => word.charAt(0).toUpperCase()) // Get the first letter (and convert to uppercase)
+        .join(""); // Join the letters together
+    }
+  }
+
   const handleClose = () => {
     setShow(false);
   };
@@ -31,30 +49,59 @@ function DefaultLayout({ children }) {
   };
   return (
     <div className="">
-      <div className=" flex justify-between items-center bg-primary/95 py-3 px-[10px] md:px-16 ">
-        <h1
-          className="
-          text-white 
-          font-bold
-          tracking-widest
-          uppercase
-          text-lg
-          cursor-pointer
-          md:text-2xl"
-          onClick={() => navigate("/")}
-        >
-          Expense Tracker
-        </h1>
-        <div className="flex align-items-center text-white">
-          <div className="flex items-center text-white border rounded-md">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <button className=" text-white flex items-center px-1 py-1 gap-2">
-                  <BiUserCircle className="w-6 font-bold text-lg" />
-                  <span className="text-sm">{user?.name}</span>
-                </button>
+      <div className=" flex justify-between items-center bg-white border-b py-3 px-[10px] md:px-16 ">
+        <div className="flex items-center gap-3 ">
+          <div className="flex items-center gap-2">
+            <img
+              src={logo}
+              alt="logo"
+              className="w-8 h-8 cursor-pointer"
+              onClick={() => {
+                navigate("/home");
+              }}
+            />
+            <span
+              className="text-2xl font-bold text-slate-700 tracking-wider border-r-2  border-r-slate-300 pr-4 cursor-pointer"
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              Expense Tracker
+            </span>
+            <div className="ml-3 text-base flex items-center gap-4 font-medium ">
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate("/category");
+                }}
+              >
+                Category
+              </span>
+              {/* <span className="cursor-pointer">Category</span> */}
+              {/* <span className="cursor-pointer">Category</span> */}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex align-items-center text-slate-700 ">
+          <div className="flex items-center text-slate-700 rounded-md ">
+            <DropdownMenu className="">
+              <DropdownMenuTrigger className="">
+                <div className="border rounded-full p-[1.4px]">
+                  <Avatar>
+                    <AvatarFallback>{initials}</AvatarFallback>
+                  </Avatar>{" "}
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => setShow(true)}
+                  className="flex cursor-pointer items-center text-slate-600 gap-1"
+                >
+                  <BiUserCircle className="w-6 font-bold text-lg" />
+                  <span>{name}</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => setShow(true)}
                   className="flex cursor-pointer items-center text-slate-600 gap-1"

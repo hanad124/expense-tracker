@@ -42,7 +42,7 @@ function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
   const getTransactionsData = async () => {
-    message.loading("Fetching all your transactions...", 0.5);
+    // message.loading("Fetching all your transactions...", 0.5);
     try {
       const response = await getAllTransactionsOfUser({
         frequency: frequency,
@@ -52,11 +52,11 @@ function Home() {
       if (response.success) {
         setTimeout(() => {
           setTransactionsData(response.data);
-          message.success(response.message);
+          // message.success(response.message);
         }, 500);
       } else {
         setTimeout(() => {
-          message.info(response.message);
+          // message.info(response.message);
         }, 500);
       }
     } catch (error) {
@@ -65,26 +65,6 @@ function Home() {
       }, 500);
     }
   };
-  // const deleteSelectedTransaction = async (payload) => {
-  //   message.loading("Deleting the selected transaction...", 0.5);
-  //   try {
-  //     const response = await deleteTransaction(payload);
-  //     if (response.success) {
-  //       setTimeout(() => {
-  //         message.success(response.message);
-  //         getTransactionsData();
-  //       }, 500);
-  //     } else {
-  //       setTimeout(() => {
-  //         message.info(response.message);
-  //       }, 500);
-  //     }
-  //   } catch (error) {
-  //     setTimeout(() => {
-  //       message.error(error.message);
-  //     }, 500);
-  //   }
-  // };
 
   const handleDeleteConfirmation = async (payload) => {
     setIsOpen(false);
@@ -226,98 +206,101 @@ function Home() {
   };
 
   return (
-    <DefaultLayout>
-      <div className="border rounded-md">
-        <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
-          <div className="flex flex-wrap gap-3 flex-1 items-center ">
-            <div className="flex flex-column w-full md:w-64 ">
-              {/* <h5>Select Frequency</h5> */}
-              <Select
-                onChange={(value) => setFrequency(value)}
-                value={frequency}
+    <>
+      {" "}
+      <DefaultLayout>
+        <div className="border rounded-md">
+          <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
+            <div className="flex flex-wrap gap-3 flex-1 items-center ">
+              <div className="flex flex-column w-full md:w-64 ">
+                {/* <h5>Select Frequency</h5> */}
+                <Select
+                  onChange={(value) => setFrequency(value)}
+                  value={frequency}
+                >
+                  <Select.Option value="7">Last 1 Week</Select.Option>
+                  <Select.Option value="30">Last 1 Month</Select.Option>
+                  <Select.Option value="365">Last 1 Year</Select.Option>
+                  <Select.Option value="custom">Custom Range</Select.Option>
+                </Select>
+                {frequency === "custom" && (
+                  <div className="mt-2">
+                    <RangePicker
+                      value={selectedRange}
+                      onChange={(values) => setSelectedRange(values)}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-column min-w-28  w-full md:w-auto">
+                {/* <h5>Select Type</h5> */}
+                <Select onChange={(value) => setType(value)} value={type}>
+                  <Select.Option value="all">All</Select.Option>
+                  <Select.Option value="income">Income</Select.Option>
+                  <Select.Option value="expense">Expense</Select.Option>
+                </Select>
+              </div>
+              {/* Search input  */}
+              <div className="flex flex-column w-full md:w-auto md:min-w-72">
+                {/* <h5>Search</h5> */}
+                <input
+                  className="form-control"
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex justify-start gap-2 h-full">
+              <div className="flex justify-between border rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
+                <UnorderedListOutlined
+                  className={`pointer ${
+                    viewType === "table" ? "active-table-icon" : "table-icon"
+                  }`}
+                  onClick={() => setViewType("table")}
+                />
+                <AreaChartOutlined
+                  className={`pointer ${
+                    viewType === "analytics"
+                      ? "active-analytics-icon"
+                      : "analytics-icon"
+                  }`}
+                  onClick={() => setViewType("analytics")}
+                />
+              </div>
+              <button
+                className="btn bg-primary text-white w-full md:w-auto h-full"
+                onClick={() => setShowAddTransactionModel(true)}
               >
-                <Select.Option value="7">Last 1 Week</Select.Option>
-                <Select.Option value="30">Last 1 Month</Select.Option>
-                <Select.Option value="365">Last 1 Year</Select.Option>
-                <Select.Option value="custom">Custom Range</Select.Option>
-              </Select>
-              {frequency === "custom" && (
-                <div className="mt-2">
-                  <RangePicker
-                    value={selectedRange}
-                    onChange={(values) => setSelectedRange(values)}
-                  />
-                </div>
-              )}
-            </div>
-            <div className="flex flex-column min-w-28  w-full md:w-auto">
-              {/* <h5>Select Type</h5> */}
-              <Select onChange={(value) => setType(value)} value={type}>
-                <Select.Option value="all">All</Select.Option>
-                <Select.Option value="income">Income</Select.Option>
-                <Select.Option value="expense">Expense</Select.Option>
-              </Select>
-            </div>
-            {/* Search input  */}
-            <div className="flex flex-column w-full md:w-auto md:min-w-72">
-              {/* <h5>Search</h5> */}
-              <input
-                className="form-control"
-                placeholder="Search"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
+                Add Transaction
+              </button>
             </div>
           </div>
-          <div className="flex justify-start gap-2 h-full">
-            <div className="flex justify-between border rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
-              <UnorderedListOutlined
-                className={`pointer ${
-                  viewType === "table" ? "active-table-icon" : "table-icon"
-                }`}
-                onClick={() => setViewType("table")}
-              />
-              <AreaChartOutlined
-                className={`pointer ${
-                  viewType === "analytics"
-                    ? "active-analytics-icon"
-                    : "analytics-icon"
-                }`}
-                onClick={() => setViewType("analytics")}
-              />
-            </div>
-            <button
-              className="btn bg-primary text-white w-full md:w-auto h-full"
-              onClick={() => setShowAddTransactionModel(true)}
-            >
-              Add New
-            </button>
-          </div>
-        </div>
 
-        {/* <div className="table-analytics mb-2"></div> */}
-        <div className="border-t">
-          {viewType === "table" ? (
-            <Table
-              dataSource={searchFilter()}
-              columns={columns}
-              scroll={{ x: 992 }}
-            />
-          ) : (
-            <Analytics transactions={searchFilter()} />
-          )}
-          {showAddTransactionModal && (
-            <AddEditTransactionModal
-              showAddTransactionModal={showAddTransactionModal}
-              setShowAddTransactionModel={setShowAddTransactionModel}
-              getTransactionsData={getTransactionsData}
-              showEditTransactionObject={showEditTransactionObject}
-              setShowEditTransactionObject={setShowEditTransactionObject}
-            />
-          )}
+          {/* <div className="table-analytics mb-2"></div> */}
+          <div className="border-t">
+            {viewType === "table" ? (
+              <Table
+                dataSource={searchFilter()}
+                columns={columns}
+                scroll={{ x: 992 }}
+              />
+            ) : (
+              <Analytics transactions={searchFilter()} />
+            )}
+            {showAddTransactionModal && (
+              <AddEditTransactionModal
+                showAddTransactionModal={showAddTransactionModal}
+                setShowAddTransactionModel={setShowAddTransactionModel}
+                getTransactionsData={getTransactionsData}
+                showEditTransactionObject={showEditTransactionObject}
+                setShowEditTransactionObject={setShowEditTransactionObject}
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </DefaultLayout>
+      </DefaultLayout>
+    </>
   );
 }
 
