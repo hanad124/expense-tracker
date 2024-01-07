@@ -93,8 +93,6 @@ function Home() {
     getTransactionsData();
   }, [frequency, selectedRange, type]);
 
-  console.log(transactionsData);
-
   const columns = [
     {
       title: "Date",

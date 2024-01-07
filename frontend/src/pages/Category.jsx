@@ -6,8 +6,10 @@ import {
   getCategories,
   deleteCategory,
 } from "../../src/apicalls/categories";
-import AddEditTransactionModal from "../components/AddEditTransactionModal";
+import { FiSearch } from "react-icons/fi";
 import AddEditCategory from "../components/AddEditCategory";
+// import { useQueryState } from "next-usequerystate";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +34,7 @@ const Category = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAddCategoryModal, setShowAddCategoryModel] = useState(false);
   const [showEditCategoryObject, setShowEditCategoryObject] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // fetch categories
   const fetchCategories = async () => {
@@ -137,15 +140,37 @@ const Category = () => {
     },
   ];
 
+  // filter categories
+  const filteredCategories = categories?.filter((category) => {
+    return (
+      category.name.toLowerCase().includes(searchTerm) ||
+      category.description.toLowerCase().includes(searchTerm)
+    );
+  });
+
   return (
     <DefaultLayout>
       <div className="border rounded-md">
-        <button
-          className="btn bg-primary text-white w-full md:w-auto h-full"
-          onClick={() => setShowAddCategoryModel(true)}
-        >
-          Add Category
-        </button>
+        <div className="flex items-center gap-10 m-2">
+          <div className="flex items-center border rounded-md bg-white flex-1">
+            <FiSearch className="mx-2" />
+            <input
+              type="text"
+              placeholder="Search categories"
+              className="w-full py-2 px-2 outline-none bg-none border-none rounded-md"
+              onChange={
+                (e) => setSearchTerm(e.target.value)
+                // setSearchTerm(e.target.value)
+              }
+            />
+          </div>
+          <button
+            className="btn bg-primary text-white w-full md:w-auto h-full"
+            onClick={() => setShowAddCategoryModel(true)}
+          >
+            Add Category
+          </button>
+        </div>
         {showAddCategoryModal && (
           <AddEditCategory
             showAddCategoryModal={showAddCategoryModal}
@@ -155,7 +180,7 @@ const Category = () => {
             setShowEditCategoryObject={setShowEditCategoryObject}
           />
         )}
-        <Table dataSource={categories} columns={columns} />
+        <Table dataSource={filteredCategories} columns={columns} />
       </div>
     </DefaultLayout>
   );

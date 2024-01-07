@@ -87,6 +87,7 @@ const AddEditCategory = (props) => {
     <div>
       <Modal
         title={showEditCategoryObject ? "Edit Category" : "Add New Category"}
+        description="Make changes to your profile here. Click save when you're done."
         visible={showAddCategoryModal}
         onCancel={() => {
           setShowEditCategoryObject(null);
@@ -94,6 +95,11 @@ const AddEditCategory = (props) => {
         }}
         footer={null}
       >
+        <p className="text-slate-500">
+          Make changes to your categories here. Click{" "}
+          {showEditCategoryObject ? "Update" : "Add"} category <br />
+          when you're done.
+        </p>
         <Form
           name="basic"
           initialValues={{
@@ -113,8 +119,9 @@ const AddEditCategory = (props) => {
                 message: "Please input category name!",
               },
             ]}
+            className=""
           >
-            <Input />
+            <Input className="ml-1 w-auto min-w-72" />
           </Form.Item>
 
           <Form.Item
@@ -127,15 +134,15 @@ const AddEditCategory = (props) => {
               },
             ]}
           >
-            <Input />
+            <Input className="ml-7 w-auto min-w-72" />
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item className="flex justify-end mr-14">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
               type="submit"
             >
-              {showEditCategoryObject ? "Update" : "Add"}
+              {showEditCategoryObject ? "Update Category" : "Add Category"}
             </button>
           </Form.Item>
         </Form>
