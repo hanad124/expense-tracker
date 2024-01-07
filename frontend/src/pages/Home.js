@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 import DefaultLayout from "../components/DefaultLayout";
 import { Table, message, Select, DatePicker } from "antd";
+import { BiSliderAlt } from "react-icons/bi";
+import { FiDownload } from "react-icons/fi";
+
 import AddEditTransactionModal from "../components/AddEditTransactionModal";
+import Report from "../components/Report";
 import {
   deleteTransaction,
   getAllTransactionsOfUser,
@@ -18,6 +23,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
 
 import {
   UnorderedListOutlined,
@@ -40,6 +53,12 @@ function Home() {
     useState(null);
   const [searchText, setSearchText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const getTransactionsData = async () => {
     // message.loading("Fetching all your transactions...", 0.5);
@@ -250,7 +269,7 @@ function Home() {
                 />
               </div>
             </div>
-            <div className="flex justify-start gap-2 h-full">
+            <div className="flex justify-start items-center gap-2 h-full">
               <div className="flex justify-between border rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
                 <UnorderedListOutlined
                   className={`pointer ${
@@ -273,6 +292,31 @@ function Home() {
               >
                 Add Transaction
               </button>
+              <DropdownMenu className="">
+                <DropdownMenuTrigger className="">
+                  <BiSliderAlt className="w-16 text-xl text-slate-500 cursor-pointer" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      // <Report ref={componentRef} />;
+                      handlePrint();
+                    }}
+                    className="flex cursor-pointer items-center text-slate-600 gap-1"
+                  >
+                    <FiDownload className="w-6 font-bold text-lg" />
+                    <span>Export as PDF</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    // onClick={() => setShow(true)}
+                    className="flex cursor-pointer items-center text-slate-600 gap-1"
+                  >
+                    <FiDownload className="w-6 font-bold text-lg" />
+                    <span>Export as Excel</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
@@ -297,6 +341,15 @@ function Home() {
               />
             )}
           </div>
+        </div>
+        <div
+          style={{
+            visibility: isVisible ? "visible" : "hidden",
+            height: isVisible ? "auto" : 0,
+            overflow: isVisible ? "visible" : "hidden",
+          }}
+        >
+          <Report ref={componentRef} transactionsData={transactionsData} />
         </div>
       </DefaultLayout>
     </>

@@ -18,7 +18,6 @@ import LandingPage from "./pages/LandingPage";
 import PublicRoute from "./components/PublicRoute";
 import UpdateEmail from "./pages/UpdateEmail";
 import UpdatePassword from "./pages/UpdatePassword";
-import Report from "./pages/Report";
 
 function App() {
   AOS.init();
@@ -110,14 +109,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Category />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/report"
-          element={
-            <ProtectedRoute>
-              <Report />
             </ProtectedRoute>
           }
         />
