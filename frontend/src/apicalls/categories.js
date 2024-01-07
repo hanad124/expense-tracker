@@ -42,7 +42,7 @@ export const getCategories = async (payload) => {
     //   "/api/categories/getCategories",
     //   payload
     // );
-    const response = await axiosInstance.get(
+    const response = await axiosInstance.post(
       "/api/categories/getAllcategoriesOfUser"
       // payload
     );

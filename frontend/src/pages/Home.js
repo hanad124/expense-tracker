@@ -50,6 +50,7 @@ function Home() {
         type,
       });
       if (response.success) {
+        console.log(response.data);
         setTimeout(() => {
           setTransactionsData(response.data);
           // message.success(response.message);
@@ -91,6 +92,8 @@ function Home() {
   useEffect(() => {
     getTransactionsData();
   }, [frequency, selectedRange, type]);
+
+  console.log(transactionsData);
 
   const columns = [
     {

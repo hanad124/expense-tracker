@@ -1,8 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Modal, Select, message } from "antd";
 import { addTransaction, editTransaction } from "../apicalls/transactions";
+import {
+  getCategories,
+  addCategory,
+  editCategory,
+} from "../apicalls/categories";
 
 function AddEditTransactionModal(props) {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const getCategoriesData = async () => {
+      try {
+        const response = await getCategories();
+        console.log(response);
+        if (response.success) {
+          setCategories(response.data);
+        }
+      } catch (error) {
+        message.error(error.message);
+      }
+    };
+    getCategoriesData();
+  }, []);
+
+  console.log(categories);
+
   const {
     showAddTransactionModal,
     setShowAddTransactionModel,
@@ -39,7 +62,16 @@ function AddEditTransactionModal(props) {
     } else {
       message.loading("Adding New Transaction...", 0.5);
       try {
-        const response = await addTransaction(values);
+        console.log(values);
+        const response = await addTransaction({
+          amount: Number(values.amount),
+          type: values.type,
+          category: values.category,
+          date: values.date,
+          reference: values.reference,
+          description: values.description,
+        });
+        console.log(response);
         if (response.success) {
           setTimeout(() => {
             message.success(response.message);
@@ -117,48 +149,15 @@ function AddEditTransactionModal(props) {
         >
           <Select
             initialvalues="salary"
-            options={[
-              {
-                value: "salary",
-                label: "Salary",
-              },
-              {
-                value: "freelance",
-                label: "Freelance",
-              },
-              {
-                value: "food",
-                label: "Food",
-              },
-              {
-                value: "shopping",
-                label: "Shopping",
-              },
-              {
-                value: "entertainment",
-                label: "Entertainment",
-              },
-              {
-                value: "medical",
-                label: "Medical",
-              },
-              {
-                value: "education",
-                label: "Education",
-              },
-              {
-                value: "investment",
-                label: "Investment",
-              },
-              {
-                value: "travel",
-                label: "Travel",
-              },
-              {
-                value: "tax",
-                label: "Tax",
-              },
-            ]}
+            options={
+              categories &&
+              categories.map((category) => {
+                return {
+                  value: category.name,
+                  label: category.name,
+                };
+              })
+            }
           />
         </Form.Item>
         <Form.Item

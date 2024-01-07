@@ -1,8 +1,26 @@
 import { Progress } from "antd";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { getCategories } from "../apicalls/categories";
 
 function Analytics({ transactions }) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const getCategoriesData = async () => {
+      try {
+        const response = await getCategories();
+        console.log(response);
+        if (response.success) {
+          setCategories(response.data);
+        }
+      } catch (error) {
+        message.error(error.message);
+      }
+    };
+    getCategoriesData();
+  }, []);
+
   const totalTransactions = transactions.length;
   const totalIncomeTransactions = transactions.filter(
     (transaction) => transaction.type === "income"
@@ -28,18 +46,18 @@ function Analytics({ transactions }) {
     (totalIncomeTurnover / totalTurnover) * 100;
   const totalExpenseTurnoverPercentage =
     (totalExpenseTurnover / totalTurnover) * 100;
-  const categories = [
-    "salary",
-    "freelance",
-    "food",
-    "entertainment",
-    "medical",
-    "education",
-    "investment",
-    "travel",
-    "shopping",
-    "tax",
-  ];
+  // const categories = [
+  //   "salary",
+  //   "freelance",
+  //   "food",
+  //   "entertainment",
+  //   "medical",
+  //   "education",
+  //   "investment",
+  //   "travel",
+  //   "shopping",
+  //   "tax",
+  // ];
   return (
     <Container className="mt-4" fluid={true}>
       <p className="text-slate-700 uppercase tracking-widest text-2xl font-bold">

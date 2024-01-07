@@ -3,13 +3,16 @@ const moment = require("moment");
 
 const addCategory = async (req, res) => {
   try {
+    const { userid } = req.body;
+    console.log(userid);
     const category = new Category({
       name: req.body.name,
       description: req.body.description,
+      user: userid,
     });
     await category.save();
     res.send({
-      data: null,
+      data: req.body,
       message: "New Category Added Successfully",
       success: true,
     });
@@ -24,7 +27,8 @@ const addCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find({});
+    const { userid } = req.body;
+    const categories = await Category.find({ user: userid });
     res.send({
       data: categories,
       message: "Categories Fetched Successfully",
@@ -42,20 +46,25 @@ const getCategories = async (req, res) => {
 // edit category
 const editCategory = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.id);
+    const category = await Category.findOne({
+      _id: req.body._id,
+      user: req.body.userid,
+    });
+
+    console.log(category);
     if (category) {
-      category.name = req.body.name || category.name;
-      category.description = req.body.description || category.description;
-      const updatedCategory = await category.save();
+      category.name = req.body.name;
+      category.description = req.body.description;
+      await category.save();
       res.send({
-        data: updatedCategory,
+        data: null,
         message: "Category Updated Successfully",
         success: true,
       });
     } else {
       res.send({
         data: null,
-        message: "Category Not Found",
+        message: "Trying to update some other user category, revoked",
         success: false,
       });
     }
@@ -71,9 +80,13 @@ const editCategory = async (req, res) => {
 // delete category
 const deleteCategory = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.id);
+    const category = await Category.findOne({
+      _id: req.body._id,
+      user: req.body.user,
+    });
+
     if (category) {
-      await category.remove();
+      await Category.deleteOne({ _id: category._id });
       res.send({
         data: null,
         message: "Category Deleted Successfully",
@@ -82,7 +95,7 @@ const deleteCategory = async (req, res) => {
     } else {
       res.send({
         data: null,
-        message: "Category Not Found",
+        message: "Trying to delete some other user category, revoked",
         success: false,
       });
     }
