@@ -45,7 +45,7 @@ const Category = () => {
       if (response.success) {
         setTimeout(() => {
           setCategories(response.data);
-          message.success(response.message);
+          // message.success(response.message);
         }, 500);
       } else {
         setTimeout(() => {
@@ -152,16 +152,16 @@ const Category = () => {
     <DefaultLayout>
       <div className="border rounded-md">
         <div className="flex items-center gap-10 m-2">
-          <div className="flex items-center border rounded-md bg-white flex-1">
+          <div
+            className="flex items-center border rounded-md bg-white flex-1  focus-within:border-blue-500
+          focus-within:border-2"
+          >
             <FiSearch className="mx-2 text-slate-400" />
             <input
               type="text"
               placeholder="Search categories"
-              className="w-full py-2 px-2 outline-none bg-none border-none rounded-md"
-              onChange={
-                (e) => setSearchTerm(e.target.value)
-                // setSearchTerm(e.target.value)
-              }
+              className=" py-2 px-2 outline-none bg-none border-none rounded-md focus:border-blue-500"
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <button

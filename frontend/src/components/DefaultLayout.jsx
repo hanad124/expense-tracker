@@ -77,7 +77,14 @@ function DefaultLayout({ children }) {
               >
                 Category
               </span>
-              <span className="cursor-pointer">Report</span>
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate("/report");
+                }}
+              >
+                Report
+              </span>
             </div>
           </div>
         </div>
