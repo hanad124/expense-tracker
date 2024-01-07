@@ -4,20 +4,37 @@ const moment = require("moment");
 const addCategory = async (req, res) => {
   try {
     const { userid } = req.body;
-    console.log(userid);
-    const category = new Category({
+
+    // Check if category already exists
+    const existingCategory = await Category.findOne({
+      name: req.body.name,
+      user: userid,
+    });
+
+    if (existingCategory) {
+      return res.send({
+        data: null,
+        message: "Category already exists",
+        success: false,
+      });
+    }
+
+    // If category doesn't exist, create a new one
+    const newCategory = new Category({
       name: req.body.name,
       description: req.body.description,
       user: userid,
     });
-    await category.save();
-    res.send({
-      data: req.body,
-      message: "New Category Added Successfully",
+
+    await newCategory.save();
+
+    return res.send({
+      data: newCategory,
+      message: "Category Added Successfully",
       success: true,
     });
   } catch (error) {
-    res.send({
+    return res.send({
       data: error,
       message: error.message,
       success: false,
