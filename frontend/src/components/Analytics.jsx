@@ -141,17 +141,18 @@ function Analytics({ transactions }) {
                   </div>
                 )}
                 {categories.map((category) => {
+                  console.log(category);
                   const amount = transactions
                     .filter(
                       (transaction) =>
                         transaction.type === "income" &&
-                        transaction.category === category
+                        transaction.category === category.name
                     )
                     .reduce((acc, transaction) => acc + transaction.amount, 0);
                   if (amount) {
                     return (
                       <div className=" border-bottom p-3">
-                        <h5>{category}</h5>
+                        <h5>{category.name}</h5>
                         <Progress
                           percent={(
                             (amount / totalIncomeTurnover) *
@@ -178,18 +179,19 @@ function Analytics({ transactions }) {
                     </p>
                   </div>
                 )}
+
                 {categories.map((category) => {
                   const amount = transactions
                     .filter(
                       (transaction) =>
                         transaction.type === "expense" &&
-                        transaction.category === category
+                        transaction.category === category.name
                     )
                     .reduce((acc, transaction) => acc + transaction.amount, 0);
                   if (amount) {
                     return (
-                      <div className=" border-bottom p-3">
-                        <h5>{category}</h5>
+                      <div className=" border-bottom p-3" key={category._id}>
+                        <h5>{category.name}</h5>
                         <Progress
                           percent={(
                             (amount / totalExpenseTurnover) *

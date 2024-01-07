@@ -87,7 +87,7 @@ const AddEditCategory = (props) => {
     <div>
       <Modal
         title={showEditCategoryObject ? "Edit Category" : "Add New Category"}
-        description="Make changes to your profile here. Click save when you're done."
+        description="Make changes to your category here. Click save when you're done."
         visible={showAddCategoryModal}
         onCancel={() => {
           setShowEditCategoryObject(null);
@@ -95,8 +95,8 @@ const AddEditCategory = (props) => {
         }}
         footer={null}
       >
-        <p className="text-slate-500">
-          Make changes to your categories here. Click{" "}
+        <p className="text-gray-500">
+          Make changes to your category here. Click{" "}
           {showEditCategoryObject ? "Update" : "Add"} category <br />
           when you're done.
         </p>

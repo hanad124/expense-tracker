@@ -120,11 +120,9 @@ function Home() {
       dataIndex: "amount",
       render: (text, record) => {
         if (record.type === "expense") {
-          return <div style={{ color: "red" }}>- &#8377; {record.amount}</div>;
+          return <div style={{ color: "red" }}>- $ {record.amount}</div>;
         } else {
-          return (
-            <div style={{ color: "green" }}>+ &#8377; {record.amount}</div>
-          );
+          return <div style={{ color: "green" }}>+ $ {record.amount}</div>;
         }
       },
     },

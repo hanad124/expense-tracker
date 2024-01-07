@@ -153,7 +153,7 @@ const Category = () => {
       <div className="border rounded-md">
         <div className="flex items-center gap-10 m-2">
           <div className="flex items-center border rounded-md bg-white flex-1">
-            <FiSearch className="mx-2" />
+            <FiSearch className="mx-2 text-slate-400" />
             <input
               type="text"
               placeholder="Search categories"

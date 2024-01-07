@@ -77,8 +77,7 @@ function DefaultLayout({ children }) {
               >
                 Category
               </span>
-              {/* <span className="cursor-pointer">Category</span> */}
-              {/* <span className="cursor-pointer">Category</span> */}
+              <span className="cursor-pointer">Report</span>
             </div>
           </div>
         </div>

@@ -105,7 +105,7 @@ function AddEditTransactionModal(props) {
         initialValues={showEditTransactionObject}
       >
         <Form.Item
-          label="Amount (in ₹)"
+          label="Amount (in $)"
           name="amount"
           rules={[
             {
