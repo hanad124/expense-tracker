@@ -150,14 +150,11 @@ const Cards = () => {
             </CardTitle>
             <CardDescription className="">
               <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
-                {
-                  // check if income is greater than expense then show income - expense else show expense - income as red color
-                  income > expense ? (
-                    <span className="text-green-500">${income - expense}</span>
-                  ) : (
-                    <span className="text-red-500">- ${expense - income}</span>
-                  )
-                }
+                {income > expense ? (
+                  <span className="">${income - expense}</span>
+                ) : (
+                  <span className="text-red-500">- ${expense - income}</span>
+                )}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
             </CardDescription>
