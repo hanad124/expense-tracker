@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -17,7 +17,7 @@ import {
   ArrowCircleUpRounded,
 } from "@mui/icons-material";
 
-import { TotalRevenueOptions, TotalRevenueSeries } from "./chart.config";
+import { generateRevenueOptions, generateRevenueSeries } from "./chart.config";
 
 import {
   getAllTransactionsOfUser,
@@ -26,6 +26,25 @@ import {
 
 const ApexChart = () => {
   const [transactions, setTransactions] = React.useState([]);
+  const [series, setSeries] = useState([]);
+  const [options, setOptions] = useState({});
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const seriesData = await generateRevenueSeries();
+        const optionsData = generateRevenueOptions();
+
+        setSeries(seriesData);
+        setOptions(optionsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const getTransactions = async () => {
     try {
@@ -36,6 +55,13 @@ const ApexChart = () => {
         return;
       }
       const latestTransactions = data.data.slice(0, 3);
+
+      // calculate total of all transactions
+      const totalAmount = data.data.reduce((sum, transaction) => {
+        return sum + transaction.amount;
+      }, 0);
+
+      setTotalAmount(totalAmount);
 
       setTransactions(latestTransactions);
     } catch (error) {
@@ -66,21 +92,21 @@ const ApexChart = () => {
             // color="#11142d"
             className="dark:text-slate-200 text-slate-700"
           >
-            $4,805
+            ${totalAmount}
           </Typography>
         </Stack>
 
         <ReactApexChart
-          series={TotalRevenueSeries}
+          series={series}
           type="bar"
           height={310}
-          options={TotalRevenueOptions}
+          options={options}
         />
       </Card>
       <Card className="w-full shadow-none">
         <CardHeader>
-          <CardTitle>Recent History</CardTitle>
-          <CardDescription>Overview of recent transections</CardDescription>
+          <CardTitle className="text-slate-700">Latest Transactions</CardTitle>
+          <CardDescription>Overview of recent transactions</CardDescription>
         </CardHeader>
         <CardContent>
           <Box
@@ -93,7 +119,10 @@ const ApexChart = () => {
           >
             {transactions.map((transaction) => (
               <div
-                className="flex items-center justify-between py-2"
+                className={`flex items-center justify-between py-2 ${
+                  // if transaction is only one, then no border bottom
+                  transactions.length === 1 ? "" : "border-b "
+                }`}
                 key={transaction._id}
               >
                 <div className="flex items-center">
@@ -124,14 +153,13 @@ const ApexChart = () => {
                       fontSize={12}
                       fontWeight={400}
                       // color="#11142d"
-                      className={`dark:text-slate-200 text-slate-700`}
+                      className={`dark:text-slate-200 text-slate-700 flex flex-col`}
                     >
-                      <span className={`mr-1 font-medium text-lg`}>
+                      <span className={` font-medium text-lg`}>
                         {" "}
                         {transaction.description}
                       </span>
-                      |
-                      <span className="ml-1 text-sm">
+                      <span className=" text-sm font-light text-slate-500">
                         {new Date(transaction.createdAt).toLocaleDateString(
                           "en-US",
                           {

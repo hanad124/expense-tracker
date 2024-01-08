@@ -114,7 +114,7 @@ function App() {
           }
         />
         <Route
-          path="/transection"
+          path="/transaction"
           element={
             <ProtectedRoute>
               <Home />

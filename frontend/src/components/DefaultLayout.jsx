@@ -26,15 +26,14 @@ function DefaultLayout({ children }) {
   const [show, setShow] = useState(false);
   const { user } = useSelector((state) => state.getUserInfoReducer);
 
-  // pathes of app
   const paths = [
     {
       name: "Dashboard",
       path: "/dashboard",
     },
     {
-      name: "Transection",
-      path: "/transection",
+      name: "Transaction",
+      path: "/transaction",
     },
     {
       name: "Category",
@@ -119,7 +118,7 @@ function DefaultLayout({ children }) {
                   </Avatar>{" "}
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="w-full min-w-56">
                 <DropdownMenuItem
                   onClick={() => setShow(true)}
                   className="flex cursor-pointer items-center text-slate-600 gap-1"
@@ -128,13 +127,13 @@ function DefaultLayout({ children }) {
                   <span>{name}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
+                {/* <DropdownMenuItem
                   onClick={() => setShow(true)}
                   className="flex cursor-pointer items-center text-slate-600 gap-1"
                 >
                   <BiUserCircle className="w-6 font-bold text-lg" />
                   <span>Edit Profile</span>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem
                   onClick={() => navigate("/updateEmail")}
                   className="flex gap-1 cursor-pointer items-center text-slate-600"

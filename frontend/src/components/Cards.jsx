@@ -100,7 +100,7 @@ const Cards = () => {
 
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-4 w-full">
-      <Card className="flex-1 w-full md:min-w-[12rem] shadow-none ">
+      <Card className="flex-1 w-full md:min-w-[12rem] shadow-none py-0">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
