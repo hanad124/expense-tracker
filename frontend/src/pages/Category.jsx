@@ -150,6 +150,7 @@ const Category = () => {
 
   return (
     <DefaultLayout>
+      <h1 className="text-slate-700 mb-5 text-3xl font-bold">Categories</h1>
       <div className="border rounded-md">
         <div className="flex items-center gap-10 m-2">
           <div
@@ -160,7 +161,7 @@ const Category = () => {
             <input
               type="text"
               placeholder="Search categories"
-              className=" py-2 px-2 outline-none bg-none border-none rounded-md focus:border-blue-500"
+              className=" py-2 px-2 outline-none bg-none border-none rounded-md focus:border-blue-500 w-full"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>

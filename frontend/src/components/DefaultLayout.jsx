@@ -26,6 +26,22 @@ function DefaultLayout({ children }) {
   const [show, setShow] = useState(false);
   const { user } = useSelector((state) => state.getUserInfoReducer);
 
+  // pathes of app
+  const paths = [
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      name: "Transection",
+      path: "/transection",
+    },
+    {
+      name: "Category",
+      path: "/category",
+    },
+  ];
+
   const name = user?.name;
 
   let initials = "";
@@ -69,22 +85,26 @@ function DefaultLayout({ children }) {
               Expense Tracker
             </span>
             <div className="ml-3 text-base flex items-center gap-4 font-medium ">
-              <span
-                className="cursor-pointer"
-                onClick={() => {
-                  navigate("/category");
-                }}
-              >
-                Category
-              </span>
-              <span
-                className="cursor-pointer"
-                onClick={() => {
-                  navigate("/report");
-                }}
-              >
-                Report
-              </span>
+              {/* activate the menu as its path */}
+              {paths.map((path, index) => (
+                <div
+                  key={index}
+                  className={`cursor-pointer flex items-center flex-col-reverse ${
+                    (path.path === "/home" || path.path === "/dashboard") &&
+                    (window.location.pathname === "/home" ||
+                      window.location.pathname === "/dashboard")
+                      ? "text-slate-700 border-slate-800 font-bold"
+                      : window.location.pathname === path.path
+                      ? "text-slate-700 border-slate-800 font-bold"
+                      : "text-slate-500"
+                  }`}
+                  onClick={() => {
+                    navigate(path.path);
+                  }}
+                >
+                  {path.name}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -158,7 +178,7 @@ function DefaultLayout({ children }) {
           handleShow={handleShow}
         />
       )}
-      <Container className=" py-5 rounded mt-10">{children}</Container>
+      <Container className=" py-5 rounded ">{children}</Container>
     </div>
   );
 }

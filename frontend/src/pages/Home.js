@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import DefaultLayout from "../components/DefaultLayout";
 import { Table, message, Select, DatePicker } from "antd";
 import { BiSliderAlt } from "react-icons/bi";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiSearch } from "react-icons/fi";
 
 import AddEditTransactionModal from "../components/AddEditTransactionModal";
 import Report from "../components/Report";
@@ -69,7 +69,6 @@ function Home() {
         type,
       });
       if (response.success) {
-        console.log(response.data);
         setTimeout(() => {
           setTransactionsData(response.data);
           // message.success(response.message);
@@ -227,6 +226,8 @@ function Home() {
     <>
       {" "}
       <DefaultLayout>
+        <h1 className="text-slate-700 mb-5 text-3xl font-bold">Transections</h1>
+
         <div className="border rounded-md">
           <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
             <div className="flex flex-wrap gap-3 flex-1 items-center ">
@@ -259,11 +260,11 @@ function Home() {
                 </Select>
               </div>
               {/* Search input  */}
-              <div className="flex flex-column w-full md:w-auto md:min-w-72">
-                {/* <h5>Search</h5> */}
+              <div className="flex gap-2 p-2 items-center w-full md:w-auto md:min-w-72 border rounded">
+                <FiSearch className="text-slate-400" />
                 <input
-                  className="form-control"
-                  placeholder="Search"
+                  className="border-none rounded outline-none text-sm focus:outline-none"
+                  placeholder="Search transaction..."
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                 />

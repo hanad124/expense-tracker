@@ -18,6 +18,7 @@ import LandingPage from "./pages/LandingPage";
 import PublicRoute from "./components/PublicRoute";
 import UpdateEmail from "./pages/UpdateEmail";
 import UpdatePassword from "./pages/UpdatePassword";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   AOS.init();
@@ -98,6 +99,22 @@ function App() {
         />
         <Route
           path="/home"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transection"
           element={
             <ProtectedRoute>
               <Home />

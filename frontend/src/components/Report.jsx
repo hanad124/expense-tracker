@@ -5,8 +5,6 @@ import moment from "moment";
 const Report = React.forwardRef((props, ref) => {
   const transactionsData = props.transactionsData;
 
-  console.log(transactionsData);
-
   const dates = transactionsData.map((obj) => new Date(obj.date));
 
   const oldestDate = new Date(Math.min(...dates));
@@ -68,7 +66,7 @@ const Report = React.forwardRef((props, ref) => {
       {/* beautiful report title & responsive */}
       <div className="report-title p-10 border-b mb-10">
         <h1 className="uppercase tracking-wider text-center font-bold">
-          Expense Trancker
+          Expense Tracker
         </h1>
         <h2 className="uppercase tracking-wider text-center mb-5">Report</h2>
         <div className="flex justify-between">
@@ -90,7 +88,7 @@ const Report = React.forwardRef((props, ref) => {
           </div>
         </div>
       </div>
-      <div className="border rounded-md mx-10">
+      <div className="  mx-4">
         <div className="report-table">
           <Table
             columns={columns}
