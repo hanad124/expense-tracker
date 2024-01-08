@@ -151,7 +151,7 @@ const Category = () => {
   return (
     <DefaultLayout>
       <h1 className="text-slate-700 mb-5 text-3xl font-bold">Categories</h1>
-      <div className="border rounded-md">
+      <div className="border rounded-md bg-white">
         <div className="flex items-center gap-10 m-2">
           <div
             className="flex items-center border rounded-md bg-white flex-1  focus-within:border-blue-500

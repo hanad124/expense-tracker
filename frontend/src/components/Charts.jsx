@@ -54,7 +54,7 @@ const ApexChart = () => {
         console.error(data.data.error);
         return;
       }
-      const latestTransactions = data.data.slice(0, 3);
+      const latestTransactions = data.data.slice(0, 4);
 
       // calculate total of all transactions
       const totalAmount = data.data.reduce((sum, transaction) => {
@@ -103,9 +103,11 @@ const ApexChart = () => {
           options={options}
         />
       </Card>
-      <Card className="w-full shadow-none">
+      <Card className="w-full md:w-[70%] shadow-none">
         <CardHeader>
-          <CardTitle className="text-slate-700">Latest Transactions</CardTitle>
+          <CardTitle className="text-slate-700 text-2xl">
+            Latest Transactions
+          </CardTitle>
           <CardDescription>Overview of recent transactions</CardDescription>
         </CardHeader>
         <CardContent>
@@ -119,13 +121,13 @@ const ApexChart = () => {
           >
             {transactions.map((transaction) => (
               <div
-                className={`flex items-center justify-between py-2 ${
+                className={`flex items-center justify-between py-3 ${
                   // if transaction is only one, then no border bottom
                   transactions.length === 1 ? "" : "border-b "
                 }`}
                 key={transaction._id}
               >
-                <div className="flex items-center">
+                <div className="flex items-center justify-between ">
                   <div
                     className={`flex items-center justify-center w-10 h-10 rounded-[15px] ${
                       transaction.type === "income"
@@ -142,22 +144,18 @@ const ApexChart = () => {
                   </div>
                   <div className="ml-4">
                     <Typography
-                      fontSize={14}
-                      fontWeight={600}
-                      // color="#11142d"
-                      className="dark:text-slate-200 text-slate-700"
-                    >
-                      {transaction.title}
-                    </Typography>
-                    <Typography
                       fontSize={12}
                       fontWeight={400}
                       // color="#11142d"
                       className={`dark:text-slate-200 text-slate-700 flex flex-col`}
                     >
-                      <span className={` font-medium text-lg`}>
+                      <span className={` font-medium text-sm`}>
                         {" "}
-                        {transaction.description}
+                        {
+                          transaction.description.slice(0, 20) +
+                            (transaction.description.length > 20 ? " ..." : "")
+                          // transaction.title
+                        }
                       </span>
                       <span className=" text-sm font-light text-slate-500">
                         {new Date(transaction.createdAt).toLocaleDateString(
@@ -172,6 +170,16 @@ const ApexChart = () => {
                       </span>
                     </Typography>
                   </div>
+                </div>
+                <div className="">
+                  <Typography
+                    fontSize={14}
+                    fontWeight={600}
+                    // color="#11142d"
+                    className="dark:text-slate-200 font-light text-sm  text-slate-700"
+                  >
+                    <span className="font-normal">{transaction.category}</span>
+                  </Typography>
                 </div>
                 <div className="flex items-center">
                   <Typography

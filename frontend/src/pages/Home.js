@@ -228,7 +228,7 @@ function Home() {
       <DefaultLayout>
         <h1 className="text-slate-700 mb-5 text-3xl font-bold">Transections</h1>
 
-        <div className="border rounded-md">
+        <div className="border rounded-md bg-white">
           <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
             <div className="flex flex-wrap gap-3 flex-1 items-center ">
               <div className="flex flex-column w-full md:w-64 ">
@@ -322,7 +322,7 @@ function Home() {
           </div>
 
           {/* <div className="table-analytics mb-2"></div> */}
-          <div className="border-t">
+          <div className="border-t bg-white">
             {viewType === "table" ? (
               <Table
                 dataSource={searchFilter()}

@@ -2,40 +2,36 @@ import { ApexOptions } from "apexcharts";
 import { getAllTransactions } from "../apicalls/transactions";
 
 export const generateRevenueSeries = async () => {
-  const lastMonthData = [];
-  const runningMonthData = [];
+  const incomeData = [];
+  let totalExpense = 0;
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
 
   const transactions = await getAllTransactions();
-  const currentDate = new Date();
 
   transactions.data.forEach((transaction) => {
     const transactionDate = new Date(transaction.date);
     const monthIndex = transactionDate.getMonth();
 
-    if (currentDate.getMonth() === monthIndex) {
-      runningMonthData[monthIndex] =
-        (runningMonthData[monthIndex] || 0) + transaction.amount;
+    if (transaction.type === "income") {
+      incomeData[monthIndex] =
+        (incomeData[monthIndex] || 0) + transaction.amount;
+    } else if (transaction.type === "expense") {
+      totalExpense += transaction.amount;
     }
-
-    lastMonthData[monthIndex] =
-      (lastMonthData[monthIndex] || 0) + transaction.amount;
   });
+
+  const expenseData = Array(incomeData.length).fill(totalExpense);
 
   const totalRevenueSeries = [
     {
-      name: "Last Month",
-      data: lastMonthData,
+      name: "income",
+      data: incomeData,
     },
     {
-      name: "Running Month",
-      data: runningMonthData,
+      name: "expense",
+      data: expenseData,
     },
   ];
-
-  console.log(runningMonthData);
-
-  console.log(lastMonthData);
 
   return totalRevenueSeries;
 };
@@ -88,6 +84,14 @@ export const generateRevenueOptions = () => {
         },
       },
     },
+    // title: {
+    //   text: "Monthly Income and Expense",
+    //   align: "center",
+    // },
+    // subtitle: {
+    //   text: "Values are in thousands",
+    //   align: "center",
+    // },
   };
 
   return totalRevenueOptions;

@@ -177,7 +177,9 @@ function DefaultLayout({ children }) {
           handleShow={handleShow}
         />
       )}
-      <Container className=" py-5 rounded ">{children}</Container>
+      <div className=" py-5 bg-slate-100/50  px-[10px] md:px-16">
+        {children}
+      </div>
     </div>
   );
 }
