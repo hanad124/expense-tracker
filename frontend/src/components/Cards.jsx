@@ -15,8 +15,89 @@ import {
   BiFile,
   BiCategory,
 } from "react-icons/bi";
+import {
+  getAllTransactionsOfUser,
+  getAllTransactions,
+} from "../apicalls/transactions";
+import { getCategories } from "../apicalls/categories";
 
 const Cards = () => {
+  const [income, setIncome] = React.useState(0);
+  const [expense, setExpense] = React.useState(0);
+  const [categories, setCategories] = React.useState(0);
+
+  const getIncome = async () => {
+    try {
+      const data = await getAllTransactions();
+
+      console.log(data.data);
+
+      if (data.data.error) {
+        console.error(data.data.error);
+        return;
+      }
+
+      const income = data.data.reduce((totalIncome, transaction) => {
+        if (transaction.type === "income") {
+          return totalIncome + transaction.amount;
+        }
+        return totalIncome;
+      }, 0);
+
+      setIncome(income);
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  const getExpense = async () => {
+    try {
+      const data = await getAllTransactions();
+
+      console.log(data.data);
+
+      if (data.data.error) {
+        console.error(data.data.error);
+        return;
+      }
+
+      const expense = data.data.reduce((totalExpense, transaction) => {
+        if (transaction.type === "expense") {
+          return totalExpense + transaction.amount;
+        }
+        return totalExpense;
+      }, 0);
+
+      setExpense(expense);
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  // get categories as count
+  const getCategoriesCount = async () => {
+    try {
+      const data = await getCategories();
+
+      if (data.data.error) {
+        console.error(data.data.error);
+        return;
+      }
+
+      const categories = data.data.length;
+
+      setCategories(categories);
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  React.useEffect(() => {
+    getIncome();
+    getExpense();
+    getCategoriesCount();
+  }, []);
+
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-4 w-full">
       <Card className="flex-1 w-full md:min-w-[12rem] shadow-none ">
@@ -29,7 +110,7 @@ const Cards = () => {
             </CardTitle>
             <CardDescription className="">
               <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
-                $15
+                ${income}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
             </CardDescription>
@@ -49,7 +130,7 @@ const Cards = () => {
             </CardTitle>
             <CardDescription className="">
               <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
-                $15
+                ${expense}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
             </CardDescription>
@@ -64,12 +145,19 @@ const Cards = () => {
           <CardHeader>
             <CardTitle>
               <span className="text-lg tracking-wider text-slate-500 font-normal">
-                Total
+                Balance
               </span>
             </CardTitle>
             <CardDescription className="">
               <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
-                $15
+                {
+                  // check if income is greater than expense then show income - expense else show expense - income as red color
+                  income > expense ? (
+                    <span className="text-green-500">${income - expense}</span>
+                  ) : (
+                    <span className="text-red-500">- ${expense - income}</span>
+                  )
+                }
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
             </CardDescription>
@@ -89,7 +177,7 @@ const Cards = () => {
             </CardTitle>
             <CardDescription className="">
               <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
-                3
+                {categories}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
             </CardDescription>

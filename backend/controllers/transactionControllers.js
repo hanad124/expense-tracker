@@ -68,6 +68,35 @@ const getAllTransactionsOfUser = async (req, res) => {
   }
 };
 
+const getAllTransactions = async (req, res) => {
+  try {
+    const { userid } = req.body;
+    const transactions = await Transaction.find({
+      user: userid,
+    }).sort({ createdAt: -1 });
+    if (transactions) {
+      res.send({
+        data: transactions,
+        message: "All Your Transactions fetched Successfully",
+        success: true,
+      });
+    } else {
+      // No Transactions to display
+      res.send({
+        data: null,
+        message: "No Transactions to display",
+        success: false,
+      });
+    }
+  } catch (error) {
+    res.send({
+      data: error,
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
 const editTransaction = async (req, res) => {
   try {
     const transaction = await Transaction.findOne({
@@ -137,4 +166,5 @@ module.exports = {
   getAllTransactionsOfUser,
   editTransaction,
   deleteTransaction,
+  getAllTransactions,
 };
