@@ -33,6 +33,10 @@ export const generateRevenueSeries = async () => {
     },
   ];
 
+  console.log(runningMonthData);
+
+  console.log(lastMonthData);
+
   return totalRevenueSeries;
 };
 
