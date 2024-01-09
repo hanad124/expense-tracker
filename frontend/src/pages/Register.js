@@ -26,7 +26,7 @@ function Register() {
         if (response.success) {
           setTimeout(() => {
             message.success(response.message);
-            navigate("/login");
+            navigate("/VerifyEmailLink");
           }, 500);
         } else {
           setTimeout(() => {

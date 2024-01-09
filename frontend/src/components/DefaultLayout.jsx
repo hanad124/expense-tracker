@@ -91,14 +91,14 @@ function DefaultLayout({ children }) {
               {paths.map((path, index) => (
                 <div
                   key={index}
-                  className={`cursor-pointer flex items-center flex-col-reverse ${
+                  className={`cursor-pointer flex items-center font-normal flex-col-reverse ${
                     (path.path === "/home" || path.path === "/dashboard") &&
                     (window.location.pathname === "/home" ||
                       window.location.pathname === "/dashboard")
-                      ? "text-slate-700 border-slate-800 font-bold"
+                      ? "text-primary border-slate-800 font-normal"
                       : window.location.pathname === path.path
-                      ? "text-slate-700 border-slate-800 font-bold"
-                      : "text-slate-500"
+                      ? "text-primary border-slate-800 font-normal"
+                      : "text-slate-700"
                   }`}
                   onClick={() => {
                     navigate(path.path);

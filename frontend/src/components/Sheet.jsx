@@ -78,7 +78,7 @@ const SheetComponent = () => {
                 {/* <SheetTitle>Are you absolutely sure?</SheetTitle> */}
                 <SheetDescription>
                   <div className="flex flex-col items-start gap-2 justify-start">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mt-6">
                       <img
                         src={logo}
                         alt="logo"

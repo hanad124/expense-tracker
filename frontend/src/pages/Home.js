@@ -263,7 +263,7 @@ function Home() {
               <div className="flex gap-2 p-2 items-center w-full md:w-auto md:min-w-72 border rounded">
                 <FiSearch className="text-slate-400" />
                 <input
-                  className="border-none rounded outline-none text-sm focus:outline-none"
+                  className="border-none w-full rounded outline-none text-sm focus:outline-none"
                   placeholder="Search transaction..."
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}

@@ -1,4 +1,5 @@
 import React from "react";
+import "../style/dashboard.css";
 import {
   Card,
   CardContent,
@@ -98,7 +99,7 @@ const Cards = () => {
 
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-4 w-full">
-      <Card className="flex-1 w-full md:min-w-[12rem] shadow-none border-none ring-none outline-none py-0">
+      <Card className="cardWidget flex-1 w-full md:min-w-[12rem]  border-none ring-none outline-none py-0">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -107,7 +108,7 @@ const Cards = () => {
               </span>
             </CardTitle>
             <CardDescription className="">
-              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
+              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-medium">
                 ${income}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
@@ -118,7 +119,7 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="flex-1 w-full md:min-w-[12rem] shadow-none ">
+      <Card className="cardWidget flex-1 w-full md:min-w-[12rem] ">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -138,7 +139,7 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="flex-1 w-full md:min-w-[12rem] shadow-none ">
+      <Card className="cardWidget flex-1 w-full md:min-w-[12rem] ">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -162,7 +163,7 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="flex-1 w-full md:min-w-[12rem] shadow-none ">
+      <Card className="cardWidget flex-1 w-full md:min-w-[12rem] ">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>

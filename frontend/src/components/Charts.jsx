@@ -23,6 +23,7 @@ import {
   getAllTransactionsOfUser,
   getAllTransactions,
 } from "../apicalls/transactions";
+import { BiDollarCircle } from "react-icons/bi";
 
 const ApexChart = () => {
   const [transactions, setTransactions] = React.useState([]);
@@ -75,14 +76,18 @@ const ApexChart = () => {
 
   return (
     <div className="flex flex-col md:flex-row mt-10 gap-4">
-      <Card className=" rounded-[15px] p-4 flex flex-col shadow-none w-full">
+      <Card
+        className="cardWidget
+cardWidget rounded-[15px] p-4 flex flex-col w-full"
+      >
         <Typography
           fontSize={18}
           fontWeight={600}
           // color="#11142d"
-          className="dark:text-slate-200 text-slate-700"
+          className="dark:text-slate-200 text-slate-700 flex items-center"
         >
-          Total Badget
+          <span className="text-sm font-medium">Total Badget</span>
+          <BiDollarCircle className="text-lg font-light ml-2 text-slate-500 " />
         </Typography>
 
         <Stack my="10px" direction="row" gap={4} flexWrap="wrap">
@@ -103,12 +108,12 @@ const ApexChart = () => {
           options={options}
         />
       </Card>
-      <Card className="w-full md:w-[70%] shadow-none">
+      <Card className=" cardWidget w-full md:w-[70%]">
         <CardHeader>
           <CardTitle className="text-slate-700 text-2xl">
-            Latest Transactions
+            Latest Transaction
           </CardTitle>
-          <CardDescription>Overview of recent transactions</CardDescription>
+          <CardDescription>Overview of recent transaction</CardDescription>
         </CardHeader>
         <CardContent>
           <Box
@@ -122,7 +127,6 @@ const ApexChart = () => {
             {transactions.map((transaction) => (
               <div
                 className={`flex items-center justify-between py-3 ${
-                  // if transaction is only one, then no border bottom
                   transactions.length === 1 ? "" : "border-b "
                 }`}
                 key={transaction._id}
@@ -149,21 +153,18 @@ const ApexChart = () => {
                       // color="#11142d"
                       className={`dark:text-slate-200 text-slate-700 flex flex-col`}
                     >
-                      <span className={` font-medium text-sm`}>
+                      <span className={` font-medium text-[14px]`}>
                         {" "}
-                        {
-                          transaction.description.slice(0, 20) +
-                            (transaction.description.length > 20 ? " ..." : "")
-                          // transaction.title
-                        }
+                        {transaction.description.slice(0, 15) +
+                          (transaction.description.length > 15 ? " ..." : "")}
                       </span>
                       <span className=" text-sm font-light text-slate-500">
                         {new Date(transaction.createdAt).toLocaleDateString(
                           "en-US",
                           {
-                            weekday: "long",
-                            year: "numeric",
+                            // weekday: "long",
                             month: "long",
+                            year: "numeric",
                             day: "numeric",
                           }
                         )}

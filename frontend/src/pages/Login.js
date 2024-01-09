@@ -64,6 +64,7 @@ function Login() {
             <Form.Item
               label="Email"
               name="email"
+              className="text-slate-600 font-light"
               data-aos="fade-up"
               rules={[
                 {
@@ -74,12 +75,13 @@ function Login() {
             >
               <Input
                 className="border focus:border-blue-600 py-[9px] w-full md:min-w-80 h-full  "
-                placeholder="email@gmail.com"
+                placeholder="example@gmail.com"
               />
             </Form.Item>
             <Form.Item
               label="Password"
               name="password"
+              className="text-slate-600 font-light"
               data-aos="fade-up"
               rules={[
                 {
@@ -89,7 +91,7 @@ function Login() {
             >
               <Input.Password
                 className=" py-[7px] w-full md:min-w-80 h-full "
-                placeholder="* * * * * *"
+                placeholder="enter password..."
               />
             </Form.Item>{" "}
             <button
