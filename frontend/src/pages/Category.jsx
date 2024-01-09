@@ -166,7 +166,7 @@ const Category = () => {
             />
           </div>
           <button
-            className="btn bg-primary text-white w-full md:w-auto h-full"
+            className="btn bg-primary text-white md:w-auto h-full"
             onClick={() => setShowAddCategoryModel(true)}
           >
             Add Category
