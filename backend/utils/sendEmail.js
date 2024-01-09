@@ -45,7 +45,7 @@ module.exports = async (user, mailType) => {
               Please click on the button below to verify your email address.
             </p>
             <div style="text-align: center;">
-              <a href="http://localhost:3000/verifyemail/${encryptedToken}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">
+              <a href="https://furqan-expense-tracker.vercel.app/verifyemail/${encryptedToken}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">
                 Verify Email
               </a>
             </div>
@@ -69,7 +69,7 @@ module.exports = async (user, mailType) => {
               Please click on the button below to reset your password.
             </p>
             <div style="text-align: center;">
-              <a href="http://localhost:3000/resetpassword/${encryptedToken}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">
+            <a href="https://furqan-expense-tracker.vercel.app/resetpassword/${encryptedToken}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">
                 Reset Password
               </a>
             </div>
