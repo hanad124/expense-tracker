@@ -90,9 +90,9 @@ const ApexChart = () => {
             fontSize={28}
             fontWeight={700}
             // color="#11142d"
-            className="dark:text-slate-200 text-slate-700"
+            className="dark:text-slate-200 text-slate-700 font-medium"
           >
-            ${totalAmount}
+            <span className="font-medium">${totalAmount}</span>
           </Typography>
         </Stack>
 
@@ -178,7 +178,9 @@ const ApexChart = () => {
                     // color="#11142d"
                     className="dark:text-slate-200 font-light text-sm  text-slate-700"
                   >
-                    <span className="font-normal">{transaction.category}</span>
+                    <span className="font-normal text-left">
+                      {transaction.category}
+                    </span>
                   </Typography>
                 </div>
                 <div className="flex items-center">

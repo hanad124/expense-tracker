@@ -102,7 +102,7 @@ const Cards = () => {
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
-              <span className="text-lg tracking-wider text-slate-500 font-normal">
+              <span className="text-sm tracking-wider text-slate-500 font-normal">
                 Income
               </span>
             </CardTitle>
@@ -122,12 +122,12 @@ const Cards = () => {
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
-              <span className="text-lg tracking-wider text-slate-500 font-normal">
+              <span className="text-sm tracking-wider text-slate-500 font-normal">
                 Expense
               </span>
             </CardTitle>
             <CardDescription className="">
-              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
+              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-medium">
                 ${expense}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
@@ -142,12 +142,12 @@ const Cards = () => {
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
-              <span className="text-lg tracking-wider text-slate-500 font-normal">
+              <span className="text-sm tracking-wider text-slate-500 font-normal">
                 Balance
               </span>
             </CardTitle>
             <CardDescription className="">
-              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
+              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-medium">
                 {income > expense ? (
                   <span className="">${income - expense}</span>
                 ) : (
@@ -166,12 +166,12 @@ const Cards = () => {
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
-              <span className="text-lg tracking-wider text-slate-500 font-normal">
+              <span className="text-sm tracking-wider text-slate-500 font-normal">
                 Category
               </span>
             </CardTitle>
             <CardDescription className="">
-              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-semibold">
+              <span className="text-3xl mt-2 text-slate-600 dark:text-slate-200 font-medium">
                 {categories}
               </span>
               {/* <p className="text-green-500 mt-1 font-semibold">+2.5%</p> */}
