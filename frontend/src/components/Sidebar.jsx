@@ -85,9 +85,9 @@ const Sidebar = () => {
                  ${
                    (path.path === "/home" || path.path === "/dashboard") &&
                    (activePath === "/home" || activePath === "/dashboard")
-                     ? "text-primary bg-blue-500/10 rounded-md font-normal"
+                     ? "text-primary bg-blue-500/10   rounded-md font-normal"
                      : activePath === path.path
-                     ? "text-primary bg-blue-500/10 rounded-md font-normal"
+                     ? "text-primary bg-blue-500/10  rounded-md font-normal"
                      : "text-slate-600 font-normal"
                  }`}
                 onClick={() => handleItemClick(path.path)}

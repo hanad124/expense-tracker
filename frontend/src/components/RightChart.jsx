@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { useNavigate } from "react-router-dom";
-import ReactApexChart from "react-apexcharts";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {
@@ -12,6 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+// import { Progress } from "./ui/progress";
+import * as Progress from "@radix-ui/react-progress";
 
 import Stack from "@mui/material/Stack";
 import {
@@ -20,15 +21,10 @@ import {
 } from "@mui/icons-material";
 
 import {
-  generateRevenueOptions,
-  generateRevenueSeries,
-  generatePieChart,
-} from "./chart.config";
-
-import {
   getAllTransactionsOfUser,
   getAllTransactions,
 } from "../apicalls/transactions";
+import { getCategories } from "../apicalls/categories";
 import { BiDollarCircle, BiChevronRight } from "react-icons/bi";
 import {
   Carousel,
@@ -41,36 +37,78 @@ import {
 const RightChart = () => {
   const navigate = useNavigate();
   const [transactions, setTransactions] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
+  const [totalTransactions, setTotalTransactions] = React.useState(0);
+  const [progress, setProgress] = React.useState(13);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setProgress(66), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const getTransactions = async () => {
     try {
       const data = await getAllTransactions();
+      const totalTransactions = data.data.length;
+      setTotalTransactions(totalTransactions);
+
+      const categories = await getCategories();
 
       if (data.data.error) {
         console.error(data.data.error);
         return;
       }
+
       const latestTransactions = data.data.slice(0, 4);
 
-      // calculate total of all transactions
+      // Calculate total of all transactions
       const totalAmount = data.data.reduce((sum, transaction) => {
         return sum + transaction.amount;
       }, 0);
 
       setTransactions(latestTransactions);
+
+      const categoryCounts = {};
+      data.data.forEach((transaction) => {
+        if (categoryCounts[transaction.category]) {
+          categoryCounts[transaction.category] += 1;
+        } else {
+          categoryCounts[transaction.category] = 1;
+        }
+      });
+
+      // Set categories state
+      setCategories(Object.entries(categoryCounts));
+
+      console.log("categoryCounts: ", categoryCounts);
     } catch (error) {
       console.error("An error occurred while fetching data:", error);
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getTransactions();
   }, []);
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
+  const getRandomColor = () => {
+    const colors = [
+      "bg-blue-500",
+      "bg-green-500",
+      "bg-yellow-500",
+      "bg-pink-500",
+      "bg-purple-500",
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
   return (
     <>
       <Carousel
         opts={{
-          //   align: "start",
           loop: true,
         }}
         plugins={[
@@ -205,17 +243,17 @@ const RightChart = () => {
             </Card>
           </CarouselItem>
           <CarouselItem>
-            <Card className=" cardWidget w-full">
+            <Card className=" cardWidget ">
               <CardHeader>
                 <CardTitle className="text-slate-700 text-2xl">
-                  Latest Transaction
+                  User Categories
                 </CardTitle>
                 <CardDescription className="flex items-center justify-between">
-                  <span>Overview of recent transaction</span>
+                  <span>Most used categories</span>
                   <span
                     className="flex items-center gap-1 text-primary cursor-pointer"
                     onClick={() => {
-                      navigate("/transaction");
+                      navigate("/category");
                     }}
                   >
                     <span className="text-sm ">View All</span>
@@ -223,7 +261,7 @@ const RightChart = () => {
                   </span>
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="">
                 <Box
                   sx={{
                     height: "100%",
@@ -324,6 +362,49 @@ const RightChart = () => {
                       </div>
                     </div>
                   ))} */}
+                  {/* display categories as progress bar with different colors */}
+                  <div className="flex flex-col gap-4">
+                    {categories.map(([category, count]) => (
+                      <div key={category} className="">
+                        <div className="flex justify-between items-center font-light text-sm">
+                          <span className="text-gray-600">{category}</span>
+                          <span className="text-gray-600">{count}</span>
+                        </div>
+                        <div className="mt-1">
+                          {/* <Progress.Root
+                            className="relative overflow-hidden bg-slate-200 rounded-full w-full h-[7px]"
+                            style={{
+                              transform: "translateZ(0)",
+                            }}
+                            value={(count / totalTransactions) * 100}
+                          >
+                            <Progress.Indicator
+                              className={`${getRandomColor()} w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]`}
+                              style={{
+                                transform: `translateX(-${count / totalTransactions}%)`,
+                              }}
+                            />
+                          </Progress.Root> */}
+                          <Progress.Root
+                            className="relative overflow-hidden bg-slate-200 rounded-full w-full h-[7px]"
+                            style={{
+                              transform: "translateZ(0)",
+                            }}
+                            value={(count / totalTransactions) * 100}
+                          >
+                            <Progress.Indicator
+                              className={`${getRandomColor()} w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]`}
+                              style={{
+                                transform: `translateX(-${
+                                  (count / totalTransactions) * 100
+                                }%)`,
+                              }}
+                            />
+                          </Progress.Root>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </Box>
               </CardContent>
             </Card>

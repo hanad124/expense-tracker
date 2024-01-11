@@ -81,7 +81,7 @@ const ApexChart = () => {
     <div className="flex flex-col md:flex-row mt-10 gap-4">
       <Card
         className="
-cardWidget rounded-[15px] p-4 flex flex-col w-full max-w-[60%]"
+cardWidget rounded-[15px] p-4 flex flex-col w-full md:max-w-[54%]"
       >
         <Typography
           fontSize={18}

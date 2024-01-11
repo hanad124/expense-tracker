@@ -31,8 +31,6 @@ const Cards = () => {
     try {
       const data = await getAllTransactions();
 
-      console.log(data.data);
-
       if (data.data.error) {
         console.error(data.data.error);
         return;
