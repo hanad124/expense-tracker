@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Table, message, Select, DatePicker } from "antd";
 import moment from "moment";
 
+import logo from "../assets/header-icon.png";
+
 const Report = React.forwardRef((props, ref) => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
@@ -42,13 +44,6 @@ const Report = React.forwardRef((props, ref) => {
 
   const columns = [
     {
-      title: "Date",
-      dataIndex: "date",
-      render: (text, record) => {
-        return moment(record.date).format("DD/MM/YYYY");
-      },
-    },
-    {
       title: "Type",
       dataIndex: "type",
       render: (text, record) => {
@@ -87,27 +82,41 @@ const Report = React.forwardRef((props, ref) => {
         return record.description;
       },
     },
+    {
+      title: "Date",
+      dataIndex: "date",
+      render: (text, record) => {
+        return moment(record.date).format("DD/MM/YYYY");
+      },
+    },
   ];
   return (
     <div ref={ref} className="">
       {/* beautiful report title & responsive */}
-      <div className="report-title p-10 border-b mb-10">
-        <h1 className="uppercase tracking-wider text-center font-bold">
-          Expense Tracker
-        </h1>
-        <h2 className="uppercase tracking-wider text-center mb-5">Report</h2>
+      <div className="report-title p-10 border-b border-dashed mb-10">
+        <div className="flex items-center justify-center gap-3">
+          <img src={logo} alt="logo" className="w-8 h-8 -mt-3" />
+          <h1 className="uppercase tracking-wider text-center font-bold">
+            Expense Tracker
+          </h1>
+        </div>
+        <h2 className=" tracking-wider text-center text-2xl mb-5">
+          Transaction Report
+        </h2>
         <div className="flex justify-between">
-          <div className="report-date flex gap-5 font-medium text-lg">
+          <div className="report-date flex gap-5 font-medium text-sm">
             <span>
-              From: <span className="tracking-widest">{oldestDateString}</span>
+              <span className="font-bold">From:</span>{" "}
+              <span className="tracking-widest">{oldestDateString}</span>
             </span>
             <span>
-              To: <span className="tracking-widest">{newestDateString}</span>
+              <span className="font-bold">To:</span>{" "}
+              <span className="tracking-widest">{newestDateString}</span>
             </span>
           </div>
-          <div className="report-date flex gap-5 font-medium text-lg">
+          <div className="report-date flex gap-5 font-medium text-sm">
             <span>
-              Print Date:{" "}
+              <span className="font-bold"> Print Date:</span>{" "}
               <span className="tracking-widest">
                 {new Date().toLocaleDateString()}
               </span>
@@ -128,7 +137,7 @@ const Report = React.forwardRef((props, ref) => {
 
         <div className="flex justify-end w-full mt-1">
           <div className="w-72 mx-w-72 p-5 ">
-            <div className="flex justify-between border-b mb-1">
+            <div className="flex justify-between border-b border-dashed border-b-slate-500 mb-1">
               <div className="flex flex-col gap-1 text-slate-800 font-medium">
                 <p>Total Income : </p>
                 <p>Total Expenes : </p>

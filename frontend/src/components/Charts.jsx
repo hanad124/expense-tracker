@@ -127,7 +127,7 @@ cardWidget rounded-[15px] p-4 flex flex-col w-full"
             {transactions.map((transaction) => (
               <div
                 className={`flex items-center justify-between py-3 ${
-                  transactions.length === 1 ? "" : "border-b "
+                  transactions.length === 1 ? "" : "border-b border-dashed "
                 }`}
                 key={transaction._id}
               >

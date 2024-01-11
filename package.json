@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adityaganji889/Expense-Tracker-Website.git"
+    "url": ""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/adityaganji889/Expense-Tracker-Website.git/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/adityaganji889/Expense-Tracker-Website.git#readme",
+  "homepage": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.1",

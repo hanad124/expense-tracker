@@ -1,5 +1,6 @@
 import { ApexOptions } from "apexcharts";
 import { getAllTransactions } from "../apicalls/transactions";
+import { getCategories } from "../apicalls/categories";
 
 export const generateRevenueSeries = async () => {
   const incomeData = [];
@@ -84,15 +85,213 @@ export const generateRevenueOptions = () => {
         },
       },
     },
-    // title: {
-    //   text: "Monthly Income and Expense",
-    //   align: "center",
-    // },
-    // subtitle: {
-    //   text: "Values are in thousands",
-    //   align: "center",
-    // },
   };
 
   return totalRevenueOptions;
 };
+
+// ====================== CATEGORY BASES =====================
+
+// import { ApexOptions } from "apexcharts";
+// import { getAllTransactions } from "../apicalls/transactions";
+// import { getCategories } from "../apicalls/categories";
+
+// export const generateRevenueSeries = async () => {
+//   const categoryData = {};
+
+//   const transactions = await getAllTransactions();
+
+//   transactions.data.forEach((transaction) => {
+//     const category = transaction.category;
+
+//     if (!categoryData[category]) {
+//       categoryData[category] = [];
+//     }
+
+//     const transactionDate = new Date(transaction.date);
+//     const monthIndex = transactionDate.getMonth();
+
+//     categoryData[category][monthIndex] =
+//       (categoryData[category][monthIndex] || 0) + transaction.amount;
+//   });
+
+//   const totalRevenueSeries = Object.keys(categoryData).map((category) => {
+//     return {
+//       name: category,
+//       data: categoryData[category],
+//     };
+//   });
+
+//   return totalRevenueSeries;
+// };
+
+// export const generateRevenueOptions = async () => {
+//   const categories = await getCategories(); // Assuming you have a function to get categories from the API
+
+//   const totalRevenueOptions = {
+//     chart: {
+//       type: "bar",
+//       toolbar: {
+//         show: false,
+//       },
+//     },
+//     colors: ["#475BE8", "#CFC8FF", "#FFD700", "#00FF00", "#FF4500"], // Add more colors as needed
+//     plotOptions: {
+//       bar: {
+//         borderRadius: 10,
+//         horizontal: false,
+//         columnWidth: "75%",
+//       },
+//     },
+//     dataLabels: {
+//       enabled: false,
+//     },
+//     grid: {
+//       show: false,
+//     },
+//     stroke: {
+//       colors: ["transparent"],
+//       width: 4,
+//     },
+//     xaxis: {
+//       categories: categories.data.map((category) => category.name), // Use category names for the x-axis
+//     },
+//     yaxis: {
+//       title: {
+//         text: "$ (thousands)",
+//       },
+//     },
+//     fill: {
+//       opacity: 1,
+//     },
+//     legend: {
+//       position: "top",
+//       horizontalAlign: "right",
+//     },
+//     tooltip: {
+//       y: {
+//         formatter(val) {
+//           return `$ ${val} ${val > 1 ? "thousands" : "thousand"}`;
+//         },
+//       },
+//     },
+//     series: [], // Empty series array to store income and expense data for each category
+//   };
+
+//   const totalRevenueSeries = await generateRevenueSeries(); // Assuming you have a function to generate revenue series
+
+//   totalRevenueSeries.forEach((categorySeries) => {
+//     const incomeData = {
+//       name: `Income (${categorySeries.name})`,
+//       data: categorySeries.data.map((value) => (value > 0 ? value : 0)), // Set negative values to 0 for income data
+//     };
+
+//     const expenseData = {
+//       name: `Expense (${categorySeries.name})`,
+//       data: categorySeries.data.map((value) => (value < 0 ? -value : 0)), // Set positive values to 0 for expense data
+//     };
+
+//     totalRevenueOptions.series.push(incomeData, expenseData);
+//   });
+
+//   return totalRevenueOptions;
+// };
+
+// ====================== MONTHLY BASES =====================
+
+// import { ApexOptions } from "apexcharts";
+// import { getAllTransactions } from "../apicalls/transactions";
+// import { getCategories } from "../apicalls/categories";
+
+// const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+// export const generateRevenueSeries = async () => {
+//   const monthData = {};
+//   const transactions = await getAllTransactions();
+
+//   if (!transactions || !transactions.data) {
+//     return []; // Return an empty array or handle the error appropriately
+//   }
+
+//   transactions.data.forEach((transaction) => {
+//     const transactionDate = new Date(transaction.date);
+//     const monthIndex = transactionDate.getMonth();
+
+//     if (!monthData[monthIndex]) {
+//       monthData[monthIndex] = [];
+//     }
+
+//     monthData[monthIndex].push({
+//       name: transaction.type,
+//       y: transaction.amount,
+//       category: transaction.category,
+//     });
+//   });
+
+//   const totalRevenueSeries = Object.keys(monthData).map((month) => {
+//     return {
+//       name: months[month], // Make sure 'months' array is defined
+//       data: monthData[month],
+//     };
+//   });
+
+//   return totalRevenueSeries;
+// };
+
+// export const generateRevenueOptions = async () => {
+//   const categories = await getCategories();
+
+//   if (!categories || !categories.data) {
+//     return {}; // Return an empty object or handle the error appropriately
+//   }
+
+//   const totalRevenueOptions = {
+//     chart: {
+//       type: "bar",
+//       toolbar: {
+//         show: false,
+//       },
+//     },
+//     colors: ["#475BE8", "#CFC8FF"],
+//     plotOptions: {
+//       bar: {
+//         borderRadius: 4,
+//         horizontal: false,
+//         columnWidth: "55%",
+//       },
+//     },
+//     dataLabels: {
+//       enabled: false,
+//     },
+//     grid: {
+//       show: false,
+//     },
+//     stroke: {
+//       colors: ["transparent"],
+//       width: 4,
+//     },
+//     xaxis: {
+//       categories: [], // Will be dynamically set based on unique transaction months
+//     },
+//     yaxis: {
+//       title: {
+//         text: "$ (thousands)",
+//       },
+//     },
+//     fill: {
+//       opacity: 1,
+//     },
+//     legend: {
+//       position: "top",
+//       horizontalAlign: "right",
+//     },
+//     tooltip: {
+//       y: {
+//         formatter(val) {
+//           return `$ ${val} ${val > 1 ? "thousands" : "thousand"}`;
+//         },
+//       },
+//     },
+//   };
+
+//   return totalRevenueOptions;
+// };

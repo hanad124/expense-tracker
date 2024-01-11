@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import DefaultLayout from "../components/DefaultLayout";
 import { Table, message, Select, DatePicker } from "antd";
 import { BiSliderAlt } from "react-icons/bi";
-import { FiDownload, FiSearch } from "react-icons/fi";
+import { FiDownload, FiSearch, FiPlus } from "react-icons/fi";
 
 import AddEditTransactionModal from "../components/AddEditTransactionModal";
 import Report from "../components/Report";
@@ -113,13 +113,6 @@ function Home() {
 
   const columns = [
     {
-      title: "Date",
-      dataIndex: "date",
-      render: (text, record) => {
-        return moment(record.date).format("DD/MM/YYYY");
-      },
-    },
-    {
       title: "Type",
       dataIndex: "type",
       render: (text, record) => {
@@ -156,6 +149,13 @@ function Home() {
       dataIndex: "description",
       render: (text, record) => {
         return record.description;
+      },
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      render: (text, record) => {
+        return moment(record.date).format("DD/MM/YYYY");
       },
     },
     {
@@ -226,9 +226,21 @@ function Home() {
     <>
       {" "}
       <DefaultLayout>
-        <h1 className="text-slate-700 mb-5 text-3xl font-bold">Transections</h1>
-
-        <div className="border rounded-md bg-white">
+        <div className="flex justify-between  ">
+          <h1 className="text-slate-700 mb-5 text-3xl font-bold">
+            Transactions
+          </h1>
+          <button
+            className="  bg-primary text-white h-full w-auto flex items-center gap-2 px-3 py-2 rounded-md"
+            onClick={() => setShowAddTransactionModel(true)}
+          >
+            <div>
+              <FiPlus className="" />
+            </div>
+            <span> Add Transaction</span>
+          </button>
+        </div>
+        <div className="border rounded-md bg-white w-full">
           <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
             <div className="flex flex-wrap gap-3 flex-1 items-center ">
               <div className="flex flex-column w-full md:w-64 ">
@@ -271,28 +283,25 @@ function Home() {
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 h-full">
-              <div className="flex justify-between border rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
+              <div className="flex justify-between border border-red-500 border-dashed rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
                 <UnorderedListOutlined
                   className={`pointer ${
-                    viewType === "table" ? "active-table-icon" : "table-icon"
+                    viewType === "table"
+                      ? "active-table-icon text-primary"
+                      : "table-icon"
                   }`}
                   onClick={() => setViewType("table")}
                 />
                 <AreaChartOutlined
                   className={`pointer ${
                     viewType === "analytics"
-                      ? "active-analytics-icon"
+                      ? "active-analytics-icon text-primary"
                       : "analytics-icon"
                   }`}
                   onClick={() => setViewType("analytics")}
                 />
               </div>
-              <button
-                className="btn bg-primary text-white w-full md:w-auto h-full"
-                onClick={() => setShowAddTransactionModel(true)}
-              >
-                Add Transaction
-              </button>
+
               <DropdownMenu className="">
                 <DropdownMenuTrigger className="">
                   <BiSliderAlt className="w-16 text-xl text-slate-500 cursor-pointer" />

@@ -6,7 +6,7 @@ import {
   getCategories,
   deleteCategory,
 } from "../../src/apicalls/categories";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiPlus } from "react-icons/fi";
 import AddEditCategory from "../components/AddEditCategory";
 // import { useQueryState } from "next-usequerystate";
 
@@ -150,7 +150,18 @@ const Category = () => {
 
   return (
     <DefaultLayout>
-      <h1 className="text-slate-700 mb-5 text-3xl font-bold">Categories</h1>
+      <div className="flex justify-between">
+        <h1 className="text-slate-700 mb-5 text-3xl font-bold">Categories</h1>
+        <button
+          className="  bg-primary text-white h-full w-auto flex items-center gap-2 px-3 py-2 rounded-md"
+          onClick={() => setShowAddCategoryModel(true)}
+        >
+          <div>
+            <FiPlus className="" />
+          </div>
+          <span> Add Category</span>
+        </button>
+      </div>
       <div className="border rounded-md bg-white">
         <div className="flex items-center gap-10 m-2">
           <div
@@ -165,12 +176,6 @@ const Category = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button
-            className="btn bg-primary text-white md:w-auto h-full"
-            onClick={() => setShowAddCategoryModel(true)}
-          >
-            Add Category
-          </button>
         </div>
         {showAddCategoryModal && (
           <AddEditCategory

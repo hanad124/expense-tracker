@@ -51,19 +51,6 @@ const SheetComponent = () => {
   const { user } = useSelector((state) => state.getUserInfoReducer);
   const name = user?.name;
 
-  let initials = "";
-  if (name) {
-    const words = name.split(/\s+/); // Split by whitespace to handle multiple spaces
-
-    // Check if there are words to create initials
-    if (words.length > 0) {
-      initials = words
-        .slice(0, 2) // Take the first two words
-        .map((word) => word.charAt(0).toUpperCase()) // Get the first letter (and convert to uppercase)
-        .join(""); // Join the letters together
-    }
-  }
-
   return (
     <div className="flex md:hidden bg-white border-b py-3 px-[10px] md:px-16 ">
       <div className="flex justify-between w-full items-center">
@@ -107,9 +94,9 @@ const SheetComponent = () => {
                               path.path === "/dashboard") &&
                             (window.location.pathname === "/home" ||
                               window.location.pathname === "/dashboard")
-                              ? "text-slate-700 border-slate-800 font-bold"
+                              ? "text-primary border-primary font-bold"
                               : window.location.pathname === path.path
-                              ? "text-slate-700 border-slate-800 font-bold"
+                              ? "text-primary border-primary font-bold"
                               : "text-slate-500"
                           }`}
                           onClick={() => {
