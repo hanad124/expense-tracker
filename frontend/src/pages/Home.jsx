@@ -240,7 +240,7 @@ function Home() {
             <span> Add Transaction</span>
           </button>
         </div>
-        <div className="border rounded-md bg-white w-full">
+        <div className="border rounded-md bg-white ">
           <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
             <div className="flex flex-wrap gap-3 flex-1 items-center ">
               <div className="flex flex-column w-full md:w-64 ">
@@ -283,7 +283,7 @@ function Home() {
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 h-full">
-              <div className="flex justify-between border border-red-500 border-dashed rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
+              <div className="flex justify-between border border-dashed rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
                 <UnorderedListOutlined
                   className={`pointer ${
                     viewType === "table"

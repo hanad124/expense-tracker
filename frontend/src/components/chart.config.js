@@ -90,6 +90,60 @@ export const generateRevenueOptions = () => {
   return totalRevenueOptions;
 };
 
+export const generatePieChartRevenueSeries = async () => {
+  try {
+    const categoryData = [];
+    const transactions = await getAllTransactions();
+
+    transactions.data.forEach((transaction) => {
+      const category = transaction.category;
+
+      if (category) {
+        const index = categoryData.findIndex((item) => item.name === category);
+        if (index !== -1) {
+          categoryData[index].data += transaction.amount;
+        } else {
+          categoryData.push({ name: category, data: transaction.amount });
+        }
+      }
+    });
+
+    return categoryData;
+  } catch (error) {
+    console.error("Error generating revenue series:", error);
+    return [];
+  }
+};
+
+// pie chart
+export const generatePieChart = async () => {
+  const seriesData = await generatePieChartRevenueSeries();
+
+  const pieChartOptions = {
+    series: seriesData.map((item) => item.data),
+    chart: {
+      width: 380,
+      type: "pie",
+    },
+    labels: seriesData.map((item) => item.name),
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
+  };
+
+  return pieChartOptions;
+};
+
 // ====================== CATEGORY BASES =====================
 
 // import { ApexOptions } from "apexcharts";
