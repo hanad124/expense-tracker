@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeUserInfo } from "../redux/actions/userActions";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import Profile from "./Profile";
 
 const AvatorComponent = () => {
   const navigate = useNavigate();
@@ -21,6 +22,13 @@ const AvatorComponent = () => {
   const [show, setShow] = useState(false);
   const { user } = useSelector((state) => state.getUserInfoReducer);
   const name = user?.name;
+
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
 
   let initials = "";
   if (name) {
@@ -93,6 +101,14 @@ const AvatorComponent = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        {show && (
+          <Profile
+            show={show}
+            setShow={setShow}
+            handleClose={handleClose}
+            handleShow={handleShow}
+          />
+        )}
       </div>
     </div>
   );

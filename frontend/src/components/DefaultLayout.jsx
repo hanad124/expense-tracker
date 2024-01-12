@@ -8,14 +8,6 @@ import Search from "./Search";
 import Sidebar from "./Sidebar";
 
 function DefaultLayout({ children }) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => {
-    setShow(false);
-  };
-  const handleShow = () => {
-    setShow(true);
-  };
   return (
     <div className="flex flex-col md:flex-row">
       {" "}
@@ -27,14 +19,6 @@ function DefaultLayout({ children }) {
           <AvatorComponent />
         </div>
         <SheetComponent />
-        {show && (
-          <Profile
-            show={show}
-            setShow={setShow}
-            handleClose={handleClose}
-            handleShow={handleShow}
-          />
-        )}
         <div className=" py-4 bg-slate-100/50  px-[10px] md:px-6">
           {children}
         </div>

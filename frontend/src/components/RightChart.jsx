@@ -11,8 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-// import { Progress } from "./ui/progress";
-import * as Progress from "@radix-ui/react-progress";
+import { Progress } from "./ui/progress";
+// import * as Progress from "@radix-ui/react-progress";
 
 import Stack from "@mui/material/Stack";
 import {
@@ -38,7 +38,9 @@ const RightChart = () => {
   const navigate = useNavigate();
   const [transactions, setTransactions] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
+  const [categoryAmounts, setCategoryAmounts] = React.useState([]);
   const [totalTransactions, setTotalTransactions] = React.useState(0);
+  const [totalAmount, setTotalAmount] = React.useState(0);
   const [progress, setProgress] = React.useState(13);
 
   React.useEffect(() => {
@@ -65,8 +67,24 @@ const RightChart = () => {
       const totalAmount = data.data.reduce((sum, transaction) => {
         return sum + transaction.amount;
       }, 0);
+      setTotalAmount(totalAmount);
 
       setTransactions(latestTransactions);
+
+      // get categories by amount
+      const categoryAmounts = {};
+      data.data.forEach((transaction) => {
+        if (categoryAmounts[transaction.category]) {
+          categoryAmounts[transaction.category] += transaction.amount;
+        } else {
+          categoryAmounts[transaction.category] = transaction.amount;
+        }
+      });
+
+      setCategoryAmounts(
+        Object.entries(categoryAmounts).sort((a, b) => b[1] - a[1])
+        // categoryAmounts
+      );
 
       const categoryCounts = {};
       data.data.forEach((transaction) => {
@@ -79,8 +97,6 @@ const RightChart = () => {
 
       // Set categories state
       setCategories(Object.entries(categoryCounts));
-
-      console.log("categoryCounts: ", categoryCounts);
     } catch (error) {
       console.error("An error occurred while fetching data:", error);
     }
@@ -94,16 +110,7 @@ const RightChart = () => {
     getTransactions();
   }, []);
 
-  const getRandomColor = () => {
-    const colors = [
-      "bg-blue-500",
-      "bg-green-500",
-      "bg-yellow-500",
-      "bg-pink-500",
-      "bg-purple-500",
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
+  console.log("categoryAmounts: ", categoryAmounts);
 
   return (
     <>
@@ -270,140 +277,26 @@ const RightChart = () => {
                     borderRadius: "15px",
                   }}
                 >
-                  {/* {transactions.map((transaction) => (
-                    <div
-                      className={`flex items-center justify-between py-3 ${
-                        transactions.length === 1
-                          ? ""
-                          : "border-b border-dashed "
-                      }`}
-                      key={transaction._id}
-                    >
-                      <div className="flex items-center justify-between ">
-                        <div
-                          className={`flex items-center justify-center w-10 h-10 rounded-[15px] ${
-                            transaction.type === "income"
-                              ? "bg-green-400/20"
-                              : "bg-red-400/20"
-                          }
-                  }`}
-                        >
-                          {transaction.type === "income" ? (
-                            <ArrowCircleUpRounded className="text-green-500 text-2xl" />
-                          ) : (
-                            <ArrowCircleDownRounded className="text-red-500 text-2xl" />
-                          )}
-                        </div>
-                        <div className="ml-4">
-                          <Typography
-                            fontSize={12}
-                            fontWeight={400}
-                            // color="#11142d"
-                            className={`dark:text-slate-200 text-slate-700 flex flex-col`}
-                          >
-                            <span className={` font-medium text-[14px]`}>
-                              {" "}
-                              {transaction.description.slice(0, 15) +
-                                (transaction.description.length > 15
-                                  ? " ..."
-                                  : "")}
-                            </span>
-                            <span className=" text-sm font-light text-slate-500">
-                              {new Date(
-                                transaction.createdAt
-                              ).toLocaleDateString("en-US", {
-                                // weekday: "long",
-                                month: "long",
-                                year: "numeric",
-                                day: "numeric",
-                              })}
-                            </span>
-                          </Typography>
-                        </div>
-                      </div>
-                      <div className="">
-                        <Typography
-                          fontSize={14}
-                          fontWeight={600}
-                          // color="#11142d"
-                          className="dark:text-slate-200 font-light text-sm  text-slate-700"
-                        >
-                          <span className="font-normal text-left">
-                            {transaction.category}
-                          </span>
-                        </Typography>
-                      </div>
-                      <div className="flex items-center">
-                        <Typography
-                          fontSize={14}
-                          fontWeight={600}
-                          // color="#11142d"
-                          className="dark:text-slate-200 text-slate-700"
-                        >
-                          <span
-                            className={`${
-                              transaction.type === "income"
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
-                          >
-                            {" "}
-                            {transaction.type === "income" ? (
-                              <span className=" text-lg font-medium">
-                                ${transaction.amount}
-                              </span>
-                            ) : (
-                              <span className="text-red-500 text-lg font-medium">
-                                - ${transaction.amount}
-                              </span>
-                            )}
-                          </span>
-                        </Typography>
-                      </div>
-                    </div>
-                  ))} */}
-                  {/* display categories as progress bar with different colors */}
-                  <div className="flex flex-col gap-4">
-                    {categories.map(([category, count]) => (
-                      <div key={category} className="">
-                        <div className="flex justify-between items-center font-light text-sm">
-                          <span className="text-gray-600">{category}</span>
-                          <span className="text-gray-600">{count}</span>
-                        </div>
-                        <div className="mt-1">
-                          {/* <Progress.Root
-                            className="relative overflow-hidden bg-slate-200 rounded-full w-full h-[7px]"
-                            style={{
-                              transform: "translateZ(0)",
-                            }}
-                            value={(count / totalTransactions) * 100}
-                          >
-                            <Progress.Indicator
-                              className={`${getRandomColor()} w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]`}
-                              style={{
-                                transform: `translateX(-${count / totalTransactions}%)`,
-                              }}
+                  <div className="flex flex-col gap-3">
+                    {categoryAmounts.map(([category, amount]) => {
+                      return (
+                        <div key={category} className="">
+                          <div className="flex justify-between items-center font-light text-sm">
+                            <span className="text-gray-600">{category}</span>
+                            <span className="text-gray-600">${amount}</span>
+                          </div>
+                          <div className="mt-1">
+                            <Progress
+                              className="bg-slate-200 rounded-full w-full h-[5px]"
+                              value={Math.min(
+                                100,
+                                (amount / totalAmount) * 100
+                              )}
                             />
-                          </Progress.Root> */}
-                          <Progress.Root
-                            className="relative overflow-hidden bg-slate-200 rounded-full w-full h-[7px]"
-                            style={{
-                              transform: "translateZ(0)",
-                            }}
-                            value={(count / totalTransactions) * 100}
-                          >
-                            <Progress.Indicator
-                              className={`${getRandomColor()} w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]`}
-                              style={{
-                                transform: `translateX(-${
-                                  (count / totalTransactions) * 100
-                                }%)`,
-                              }}
-                            />
-                          </Progress.Root>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </Box>
               </CardContent>

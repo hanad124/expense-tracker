@@ -9,3 +9,9 @@
 .sidebarborder {
   border: 0.8px solid rgba(34, 103, 231, 0.431);
 }
+
+.special_modal .modal-content {
+  background-color: #00000000;
+  color: #fff;
+  border: none;
+}
