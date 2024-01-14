@@ -52,7 +52,7 @@ const SheetComponent = () => {
   const name = user?.name;
 
   return (
-    <div className="flex md:hidden bg-white border-b py-3 px-[10px] md:px-16 ">
+    <div className="flex md:hidden light:bg-white dark:bg-background border-b py-3 px-[10px] md:px-16 ">
       <div className="flex justify-between w-full items-center">
         <div className="">
           {/* <BiMenu className="w-8 h-8 cursor-pointer text-slate-500" /> */}
@@ -75,7 +75,7 @@ const SheetComponent = () => {
                         }}
                       />
                       <span
-                        className="text-2xl font-bold text-slate-700 tracking-wider  cursor-pointer"
+                        className="text-2xl font-bold text-slate-700 dark:text-slate-400 tracking-wider  cursor-pointer"
                         onClick={() => {
                           navigate("/home");
                         }}
@@ -97,7 +97,7 @@ const SheetComponent = () => {
                               ? "text-primary border-primary font-bold"
                               : window.location.pathname === path.path
                               ? "text-primary border-primary font-bold"
-                              : "text-slate-500"
+                              : "text-slate-500 dark:text-slate-400 "
                           }`}
                           onClick={() => {
                             navigate(path.path);

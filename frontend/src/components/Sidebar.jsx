@@ -57,7 +57,7 @@ const Sidebar = () => {
   ];
   return (
     <div>
-      <div className="sidebar hidden md:block sticky top-0 borderstyle dark:border-slate-600 border-r min-w-60 min-h-screen ">
+      <div className="hidden md:block sticky top-0  border-r min-w-60 min-h-screen dark:bg-background dark:border-r-none ">
         <div className="flex flex-col gap-y-4 relativeh-full">
           <div className="flex items-center justify-center gap-2 py-4">
             <img
@@ -81,15 +81,15 @@ const Sidebar = () => {
             {paths.map((path, index) => (
               <div
                 key={index}
-                className={`cursor-pointer flex items-center font-normal mx-3 gap-3  py-2 px-2
-                 ${
-                   (path.path === "/home" || path.path === "/dashboard") &&
-                   (activePath === "/home" || activePath === "/dashboard")
-                     ? "text-primary bg-blue-500/10   rounded-md font-normal"
-                     : activePath === path.path
-                     ? "text-primary bg-blue-500/10  rounded-md font-normal"
-                     : "text-slate-600 font-normal"
-                 }`}
+                className={`cursor-pointer flex items-center font-light mx-3 gap-3  py-2 px-2
+                ${
+                  (path.path === "/home" || path.path === "/dashboard") &&
+                  (activePath === "/home" || activePath === "/dashboard")
+                    ? "text-white bg-blue-500 dark:bg-blue-500 dark:text-slate-600 rounded-md font-light"
+                    : activePath === path.path
+                    ? "text-white bg-blue-500 dark:bg-blue-500 dark:text-slate-600 rounded-md font-light"
+                    : "text-slate-600 dark:text-slate-400 font-light"
+                }`}
                 onClick={() => handleItemClick(path.path)}
               >
                 {path.icon}
@@ -98,10 +98,10 @@ const Sidebar = () => {
             ))}
           </div>{" "}
           {/* log out button */}
-          <div className="flex items-center gap-3 px-4 py-2 rounded-md cursor-pointer  text-slate-600 -mt-3">
+          <div className="flex items-center gap-3 px-4 py-2 rounded-md cursor-pointer  text-slate-600  dark:text-slate-400 -mt-3">
             <FiLogOut className="text-lg" />
             <span
-              className="text-base font-normal"
+              className="text-base font-light"
               onClick={() => {
                 message.loading("Logging out...", 0.5);
                 setTimeout(() => {

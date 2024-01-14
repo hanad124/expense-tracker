@@ -1,16 +1,17 @@
-import { Progress } from "antd";
+import { Progress, message } from "antd";
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { getCategories } from "../apicalls/categories";
+import { useTheme } from "next-themes";
 
 function Analytics({ transactions }) {
+  const { theme } = useTheme();
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getCategoriesData = async () => {
       try {
         const response = await getCategories();
-        console.log(response);
         if (response.success) {
           setCategories(response.data);
         }
@@ -46,37 +47,48 @@ function Analytics({ transactions }) {
     (totalIncomeTurnover / totalTurnover) * 100;
   const totalExpenseTurnoverPercentage =
     (totalExpenseTurnover / totalTurnover) * 100;
-  // const categories = [
-  //   "salary",
-  //   "freelance",
-  //   "food",
-  //   "entertainment",
-  //   "medical",
-  //   "education",
-  //   "investment",
-  //   "travel",
-  //   "shopping",
-  //   "tax",
-  // ];
+
+  const isDarkMode = theme === "dark";
+
   return (
     <Container className="mt-4" fluid={true}>
-      <p className="text-slate-700 uppercase tracking-widest text-2xl font-bold">
+      <p className="text-slate-700 dark:text-slate-400 uppercase tracking-widest text-2xl font-bold">
         Analytics 📊
       </p>
       <div className="">
         <div className="flex gap-x-10 flex-col md:flex-row">
           <div className=" flex-1">
-            <div className="mb-5 border rounded p-4">
+            <div
+              className="mb-5 rounded p-4"
+              style={
+                isDarkMode
+                  ? { border: "1px solid #263052" }
+                  : { border: "1px solid #e5e7eb" }
+              }
+            >
               <div>
-                <p className="border-b pb-2 mb-5 text-slate-700  text-xl">
+                <p
+                  className=" pb-2 mb-5 text-slate-700  text-xl"
+                  style={
+                    isDarkMode
+                      ? { borderBottom: "1px solid #263052", color: "#939ab5" }
+                      : { borderBottom: "1px solid #e5e7eb" }
+                  }
+                >
                   Total Transactions :{" "}
                   <span className="font-bold">{totalTransactions}</span>
                 </p>
                 <div className="d-flex justify-content-around gap-3">
-                  <p className=" text-slate-700 ">
+                  <p
+                    className=" text-slate-700 "
+                    style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+                  >
                     Income : {totalIncomeTransactions.length}
                   </p>
-                  <p className=" text-slate-700 ">
+                  <p
+                    className=" text-slate-700 "
+                    style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+                  >
                     Expense : {totalExpenseTransactions.length}
                   </p>
                 </div>
@@ -91,36 +103,64 @@ function Analytics({ transactions }) {
                   type="circle"
                   strokeColor={{ "0%": "#ff6600", "100%": "#ff0000" }}
                   percent={totalExpenseTransactionsPercentage.toFixed(0)}
+                  // change percent text color when dark mode is enabled
+                  style={isDarkMode ? { color: "#fff" } : { color: "" }}
+                  s
                 />
               </div>
             </div>
           </div>
           <div className=" flex-1">
-            <div className="mb-5 border rounded p-4">
+            <div
+              className="mb-5  rounded p-4"
+              style={
+                isDarkMode
+                  ? { border: "1px solid #263052" }
+                  : { border: "1px solid #e5e7eb" }
+              }
+            >
               <div>
-                <p className="border-b pb-2 mb-5 text-slate-700 text-xl ">
+                <p
+                  className=" pb-2 mb-5 text-slate-700 text-xl "
+                  style={
+                    isDarkMode
+                      ? { borderBottom: "1px solid #263052", color: "#939ab5" }
+                      : { borderBottom: "1px solid #e5e7eb" }
+                  }
+                >
                   Total Turnover :{" "}
                   <span className="font-bold">${totalTurnover}</span>
                 </p>
                 <div className="d-flex justify-content-around gap-3">
-                  <p className=" text-slate-700 ">
+                  <p
+                    className=" text-slate-700 "
+                    style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+                  >
                     Income : {totalIncomeTurnover}
                   </p>
-                  <p className=" text-slate-700 ">
+                  <p
+                    className=" text-slate-700 "
+                    style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+                  >
                     Expense : {totalExpenseTurnover}
                   </p>
                 </div>
               </div>
-              <div className="d-flex gap-3 justify-content-around">
+              <div
+                className="d-flex gap-3 justify-content-around"
+                style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+              >
                 <Progress
                   type="circle"
                   strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
                   percent={totalIncomeTurnoverPercentage.toFixed(0)}
+                  style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
                 />
                 <Progress
                   type="circle"
                   strokeColor={{ "0%": "#ff6600", "100%": "#ff0000" }}
                   percent={totalExpenseTurnoverPercentage.toFixed(0)}
+                  style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
                 />
               </div>
             </div>
@@ -128,20 +168,36 @@ function Analytics({ transactions }) {
         </div>
         <div className=" flex gap-x-10 flex-col md:flex-row">
           <div className="flex-1">
-            <div className="mb-5 border rounded p-4">
+            <div
+              className="p-4 rounded-md"
+              style={
+                isDarkMode
+                  ? { border: "1px solid #263052" }
+                  : { border: "1px solid #e5e7eb" }
+              }
+            >
               <div>
-                <p className="border-b pb-2 text-xl text-slate-700 ">
+                <p
+                  className="border-b pb-2 text-xl text-slate-700 "
+                  style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+                >
                   Income - Category Wise
                 </p>
                 {totalIncomeTransactions.length === 0 && (
-                  <div className=" border-bottom p-3">
+                  <div
+                    className="  p-3"
+                    style={
+                      isDarkMode
+                        ? { borderBottom: "1px solid #263052" }
+                        : { borderBottom: "1px solid #e5e7eb" }
+                    }
+                  >
                     <p className="text-sm text-center  text-slate-700 ">
                       No Category Transactions To Display
                     </p>
                   </div>
                 )}
                 {categories.map((category) => {
-                  console.log(category);
                   const amount = transactions
                     .filter(
                       (transaction) =>
@@ -151,8 +207,22 @@ function Analytics({ transactions }) {
                     .reduce((acc, transaction) => acc + transaction.amount, 0);
                   if (amount) {
                     return (
-                      <div className=" border-bottom p-3">
-                        <h5>{category.name}</h5>
+                      <div
+                        className="  p-3"
+                        style={
+                          isDarkMode
+                            ? { borderBottom: "1px solid #263052" }
+                            : { borderBottom: "1px solid #e5e7eb" }
+                        }
+                      >
+                        <h5
+                          className="  text-slate-700 text-lg"
+                          style={
+                            isDarkMode ? { color: "#939ab5" } : { color: "" }
+                          }
+                        >
+                          {category.name}
+                        </h5>
                         <Progress
                           percent={(
                             (amount / totalIncomeTurnover) *
@@ -167,13 +237,30 @@ function Analytics({ transactions }) {
             </div>
           </div>
           <div className="flex-1">
-            <div className="mb-5 border  rounded p-4">
+            <div
+              className="mb-5   rounded p-4"
+              style={
+                isDarkMode
+                  ? { border: "1px solid #263052" }
+                  : { border: "1px solid #e5e7eb" }
+              }
+            >
               <div>
-                <p className="border-b pb-2 text-xl text-slate-700 ">
+                <p
+                  className="border-b pb-2 text-xl text-slate-700 "
+                  style={isDarkMode ? { color: "#939ab5" } : { color: "" }}
+                >
                   Expense - Category Wise
                 </p>
                 {totalExpenseTransactions.length === 0 && (
-                  <div className=" border-bottom p-3">
+                  <div
+                    className=" p-3"
+                    style={
+                      isDarkMode
+                        ? { borderBottom: "1px solid #263052" }
+                        : { borderBottom: "1px solid #e5e7eb" }
+                    }
+                  >
                     <p className=" text-slate-700 text-sm text-center">
                       No Category Transactions To Display
                     </p>
@@ -190,8 +277,22 @@ function Analytics({ transactions }) {
                     .reduce((acc, transaction) => acc + transaction.amount, 0);
                   if (amount) {
                     return (
-                      <div className=" border-bottom p-3" key={category._id}>
-                        <h5>{category.name}</h5>
+                      <div
+                        className="  p-3"
+                        style={
+                          isDarkMode
+                            ? { borderBottom: "1px solid #263052" }
+                            : { borderBottom: "1px solid #e5e7eb" }
+                        }
+                        key={category._id}
+                      >
+                        <h5
+                          style={
+                            isDarkMode ? { color: "#939ab5" } : { color: "" }
+                          }
+                        >
+                          {category.name}
+                        </h5>
                         <Progress
                           percent={(
                             (amount / totalExpenseTurnover) *

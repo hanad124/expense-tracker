@@ -123,7 +123,7 @@ function Profile(props) {
         </Modal.Footer> */}
       {/* =============== ========= */}
       <Modal show={show} onHide={handleClose} className="special_modal">
-        <div className="max-w-2xl sm:max-w-sm  xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto my-2 bg-white shadow-xl rounded-lg text-gray-900">
+        <div className="max-w-2xl sm:max-w-sm  xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto my-2 bg-white shadow-xl rounded-lg text-gray-900  dark:bg-[#181e2f]">
           <div className="rounded-t-lg h-32 overflow-hidden">
             <img
               className="object-cover object-top w-full"
@@ -174,7 +174,7 @@ function Profile(props) {
               <div>15</div>
             </li>
           </ul> */}
-          <div className="p-4 border-t mx-8 mt-2">
+          <div className="p-4 border-t border-slate-300 mx-8 mt-2">
             <button
               className="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2"
               onClick={handleClose}

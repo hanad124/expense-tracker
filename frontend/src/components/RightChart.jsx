@@ -126,9 +126,9 @@ const RightChart = () => {
       >
         <CarouselContent className="min-w-fit-content">
           <CarouselItem>
-            <Card className=" cardWidget">
+            <Card className=" light:cardWidget  dark:border-none">
               <CardHeader>
-                <CardTitle className="text-slate-700 text-2xl">
+                <CardTitle className="text-slate-700 dark:text-slate-400 text-2xl">
                   Latest Transaction
                 </CardTitle>
                 <CardDescription className="flex items-center justify-between">
@@ -149,7 +149,7 @@ const RightChart = () => {
                   sx={{
                     height: "100%",
                     width: "100%",
-                    backgroundColor: "#fff",
+                    // backgroundColor: "#fff",
                     borderRadius: "15px",
                   }}
                 >
@@ -250,9 +250,9 @@ const RightChart = () => {
             </Card>
           </CarouselItem>
           <CarouselItem>
-            <Card className=" cardWidget ">
+            <Card className=" light:cardWidget  dark:border-none ">
               <CardHeader>
-                <CardTitle className="text-slate-700 text-2xl">
+                <CardTitle className="text-slate-700 dark:text-slate-400 text-2xl">
                   User Categories
                 </CardTitle>
                 <CardDescription className="flex items-center justify-between">
@@ -273,7 +273,7 @@ const RightChart = () => {
                   sx={{
                     height: "100%",
                     width: "100%",
-                    backgroundColor: "#fff",
+                    // backgroundColor: "#fff",
                     borderRadius: "15px",
                   }}
                 >
@@ -282,12 +282,16 @@ const RightChart = () => {
                       return (
                         <div key={category} className="">
                           <div className="flex justify-between items-center font-light text-sm">
-                            <span className="text-gray-600">{category}</span>
-                            <span className="text-gray-600">${amount}</span>
+                            <span className="text-gray-600 dark:text-slate-400 ">
+                              {category}
+                            </span>
+                            <span className="text-gray-600 dark:text-slate-400 ">
+                              ${amount}
+                            </span>
                           </div>
                           <div className="mt-1">
                             <Progress
-                              className="bg-slate-200 rounded-full w-full h-[5px]"
+                              className="bg-slate-200 dark:bg-slate-400 rounded-full w-full h-[5px]"
                               value={Math.min(
                                 100,
                                 (amount / totalAmount) * 100

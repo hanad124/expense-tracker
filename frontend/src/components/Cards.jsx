@@ -96,8 +96,8 @@ const Cards = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-4 w-full">
-      <Card className="cardWidget flex-1 w-full md:min-w-[12rem]  border-none ring-none outline-none py-0">
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-4 w-full">
+      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem]  border-none ring-none outline-none py-0">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -117,7 +117,7 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="cardWidget flex-1 w-full md:min-w-[12rem] ">
+      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem] ">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -137,7 +137,7 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="cardWidget flex-1 w-full md:min-w-[12rem] ">
+      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem] ">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -161,7 +161,7 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="cardWidget flex-1 w-full md:min-w-[12rem] ">
+      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem] ">
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>

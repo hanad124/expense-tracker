@@ -29,7 +29,9 @@
     "cmdk": "^0.2.0",
     "embla-carousel-autoplay": "^8.0.0-rc19",
     "embla-carousel-react": "^8.0.0-rc19",
+    "lucide-react": "^0.309.0",
     "moment": "^2.29.4",
+    "next-themes": "^0.2.1",
     "next-usequerystate": "^1.14.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
@@ -43,6 +45,7 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
+    "sass": "^1.69.7",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "web-vitals": "^2.1.4"

@@ -104,6 +104,7 @@ const Category = () => {
           <div className="flex gap-2">
             <EditOutlined
               onClick={() => {
+                console.log(record);
                 setShowEditCategoryObject(record);
                 setShowAddCategoryModel(true);
               }}

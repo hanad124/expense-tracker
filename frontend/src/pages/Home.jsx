@@ -4,6 +4,7 @@ import DefaultLayout from "../components/DefaultLayout";
 import { Table, message, Select, DatePicker } from "antd";
 import { BiSliderAlt } from "react-icons/bi";
 import { FiDownload, FiSearch, FiPlus } from "react-icons/fi";
+import { DataGrid } from "@mui/x-data-grid";
 
 import AddEditTransactionModal from "../components/AddEditTransactionModal";
 import Report from "../components/Report";
@@ -11,7 +12,15 @@ import {
   deleteTransaction,
   getAllTransactionsOfUser,
 } from "../apicalls/transactions";
-import moment from "moment";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,14 +32,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu";
 
 import {
   UnorderedListOutlined,
@@ -39,10 +40,14 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import Analytics from "../components/Analytics";
+import { transactionColumns } from "../resources/columns";
+import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
 
 const { RangePicker } = DatePicker;
 
 function Home() {
+  const { theme } = useTheme();
   const [showAddTransactionModal, setShowAddTransactionModel] = useState(false);
   const [transactionsData, setTransactionsData] = useState([]);
   const [frequency, setFrequency] = useState("7");
@@ -54,11 +59,14 @@ function Home() {
   const [searchText, setSearchText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const isDarkMode = theme === "dark" ? true : false;
 
   const getTransactionsData = async () => {
     // message.loading("Fetching all your transactions...", 0.5);
@@ -111,127 +119,189 @@ function Home() {
     getTransactionsData();
   }, [frequency, selectedRange, type]);
 
-  const columns = [
+  // const columns = [
+  //   {
+  //     title: "Type",
+  //     dataIndex: "type",
+  //     render: (text, record) => {
+  //       return record.type;
+  //     },
+  //   },
+  //   {
+  //     title: "Category",
+  //     dataIndex: "category",
+  //     render: (text, record) => {
+  //       return record.category;
+  //     },
+  //   },
+  //   {
+  //     title: "Amount",
+  //     dataIndex: "amount",
+  // render: (text, record) => {
+  //   if (record.type === "expense") {
+  //     return <div style={{ color: "red" }}>- $ {record.amount}</div>;
+  //   } else {
+  //     return <div style={{ color: "green" }}>+ $ {record.amount}</div>;
+  //   }
+  // },
+  //   },
+  //   {
+  //     title: "Reference",
+  //     dataIndex: "reference",
+  //     render: (text, record) => {
+  //       return record.reference;
+  //     },
+  //   },
+  //   {
+  //     title: "Description",
+  //     dataIndex: "description",
+  //     render: (text, record) => {
+  //       return record.description;
+  //     },
+  //   },
+  //   {
+  //     title: "Date",
+  //     dataIndex: "date",
+  //     render: (text, record) => {
+  //       return moment(record.date).format("DD/MM/YYYY");
+  //     },
+  //   },
+  //   {
+  //     title: "Actions",
+  //     render: (text, record) => {
+  //       return (
+  //         <div className="flex gap-2">
+  //           <EditOutlined
+  //             onClick={() => {
+  //               setShowEditTransactionObject(record);
+  //               setShowAddTransactionModel(true);
+  //             }}
+  //           />
+  //           <AlertDialog>
+  //             <AlertDialogTrigger>
+  //               <DeleteOutlined
+  //                 onClick={() => {
+  //                   setIsOpen(true);
+  //                 }}
+  //               />
+  //             </AlertDialogTrigger>
+  //             <AlertDialogContent>
+  //               <AlertDialogHeader>
+  //                 <AlertDialogTitle>Confirmation!</AlertDialogTitle>
+  //                 <AlertDialogDescription>
+  //                   Are you sure you want to delete this transaction?
+  //                 </AlertDialogDescription>
+  //               </AlertDialogHeader>
+  //               <AlertDialogFooter className="flex items-center">
+  //                 <AlertDialogCancel>Cancel</AlertDialogCancel>
+  //                 <AlertDialogAction
+  //                   onClick={() => handleDeleteConfirmation(record)}
+  //                   className="-mb-1"
+  //                 >
+  //                   Delete
+  //                 </AlertDialogAction>
+  //               </AlertDialogFooter>
+  //             </AlertDialogContent>
+  //           </AlertDialog>
+  //         </div>
+  //       );
+  //     },
+  //   },
+  // ];
+
+  // Search Functionality as filter
+
+  const actionColumn = [
     {
-      title: "Type",
-      dataIndex: "type",
-      render: (text, record) => {
-        return record.type;
-      },
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      render: (text, record) => {
-        return record.category;
-      },
-    },
-    {
-      title: "Amount",
-      dataIndex: "amount",
-      render: (text, record) => {
-        if (record.type === "expense") {
-          return <div style={{ color: "red" }}>- $ {record.amount}</div>;
-        } else {
-          return <div style={{ color: "green" }}>+ $ {record.amount}</div>;
-        }
-      },
-    },
-    {
-      title: "Reference",
-      dataIndex: "reference",
-      render: (text, record) => {
-        return record.reference;
-      },
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      render: (text, record) => {
-        return record.description;
-      },
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      render: (text, record) => {
-        return moment(record.date).format("DD/MM/YYYY");
-      },
-    },
-    {
-      title: "Actions",
-      render: (text, record) => {
+      field: "action",
+      headerName: "Action",
+      width: 230,
+      renderCell: (params) => {
         return (
-          <div className="flex gap-2">
-            <EditOutlined
-              onClick={() => {
-                setShowEditTransactionObject(record);
-                setShowAddTransactionModel(true);
-              }}
-            />
-            <AlertDialog>
-              <AlertDialogTrigger>
-                <DeleteOutlined
-                  onClick={() => {
-                    setIsOpen(true);
-                  }}
-                />
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Confirmation!</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete this transaction?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className="flex items-center">
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleDeleteConfirmation(record)}
-                    className="-mb-1"
-                  >
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
+          <>
+            <div className="flex gap-3">
+              <EditOutlined
+                onClick={() => {
+                  console.log(params.row);
+                  setShowEditTransactionObject(params.row);
+                  setShowAddTransactionModel(true);
+                }}
+              />
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <DeleteOutlined
+                    onClick={() => {
+                      setIsOpen(true);
+                    }}
+                  />
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Confirmation!</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete this transaction?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="flex items-center">
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => handleDeleteConfirmation(params.row)}
+                      className="-mb-1"
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </>
         );
       },
     },
   ];
 
-  // Search Functionality as filter
   const searchFilter = () => {
     if (searchText === "") {
-      return transactionsData;
+      return transactionsData.map((item, index) => ({
+        ...item,
+        id: index,
+        date: new Date(item.date).toLocaleDateString(),
+      }));
     } else {
-      return transactionsData.filter((item) => {
-        return (
-          item.date.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.type.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.category.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.amount
-            .toString()
-            .toLowerCase()
-            .includes(searchText.toLowerCase()) ||
-          item.reference.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchText.toLowerCase())
-        );
-      });
+      return transactionsData
+        .filter((item) => {
+          return (
+            new Date(item.date)
+              .toLocaleDateString()
+              .includes(searchText.toLowerCase()) ||
+            item.type.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.category.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.amount
+              .toString()
+              .toLowerCase()
+              .includes(searchText.toLowerCase()) ||
+            item.reference.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchText.toLowerCase())
+          );
+        })
+        .map((item, index) => ({ ...item, id: index }));
     }
   };
 
+  useEffect(() => {
+    searchFilter();
+    setFilteredData(searchFilter());
+  }, [searchText, transactionsData]);
   return (
     <>
       {" "}
       <DefaultLayout>
         <div className="flex justify-between  ">
-          <h1 className="text-slate-700 mb-5 text-3xl font-bold">
+          <h1 className="text-slate-700 dark:text-slate-400 mb-5 text-3xl font-bold">
             Transactions
           </h1>
           <button
-            className="  bg-primary text-white h-full w-auto flex items-center gap-2 px-3 py-2 rounded-md"
+            className="  bg-primary text-white  h-full w-auto flex items-center gap-2 px-3 py-2 rounded-md"
             onClick={() => setShowAddTransactionModel(true)}
           >
             <div>
@@ -240,14 +310,15 @@ function Home() {
             <span> Add Transaction</span>
           </button>
         </div>
-        <div className="border rounded-md bg-white ">
+        <div className="light:border dark:border-none    rounded-md  dark:bg-background ">
           <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
             <div className="flex flex-wrap gap-3 flex-1 items-center ">
-              <div className="flex flex-column w-full md:w-64 ">
+              <div className="flex flex-column w-full md:w-64 bg-none bg-transparent">
                 {/* <h5>Select Frequency</h5> */}
                 <Select
                   onChange={(value) => setFrequency(value)}
                   value={frequency}
+                  className=" bg-none bg-transparent"
                 >
                   <Select.Option value="7">Last 1 Week</Select.Option>
                   <Select.Option value="30">Last 1 Month</Select.Option>
@@ -272,10 +343,21 @@ function Home() {
                 </Select>
               </div>
               {/* Search input  */}
-              <div className="flex gap-2 p-2 items-center w-full md:w-auto md:min-w-72 border rounded">
+              <div
+                className="flex gap-2 p-2 items-center w-full md:w-auto md:min-w-72  rounded"
+                style={
+                  isDarkMode
+                    ? {
+                        border: "1px solid #263052",
+                      }
+                    : {
+                        border: "1px solid #d1d5db",
+                      }
+                }
+              >
                 <FiSearch className="text-slate-400" />
                 <input
-                  className="border-none w-full rounded outline-none text-sm focus:outline-none"
+                  className="border-none w-full rounded outline-none text-sm focus:outline-none bg-none bg-transparent"
                   placeholder="Search transaction..."
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
@@ -283,7 +365,18 @@ function Home() {
               </div>
             </div>
             <div className="flex justify-start items-center gap-2 h-full">
-              <div className="flex justify-between border border-dashed rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 ">
+              <div
+                className="flex justify-between rounded mx-2 p-2 px-3 w-full md:w-auto h-full md:min-w-28 "
+                style={
+                  isDarkMode
+                    ? {
+                        border: "1px solid #263052",
+                      }
+                    : {
+                        border: "1px solid #d1d5db",
+                      }
+                }
+              >
                 <UnorderedListOutlined
                   className={`pointer ${
                     viewType === "table"
@@ -331,12 +424,31 @@ function Home() {
           </div>
 
           {/* <div className="table-analytics mb-2"></div> */}
-          <div className="border-t bg-white">
+          <div className={` ${isDarkMode ? "bg-background" : "bg-white"}`}>
             {viewType === "table" ? (
-              <Table
-                dataSource={searchFilter()}
-                columns={columns}
-                scroll={{ x: 992 }}
+              <DataGrid
+                className=" dark:bg-background"
+                rows={searchFilter()}
+                columns={transactionColumns.concat(actionColumn)}
+                sx={
+                  isDarkMode
+                    ? {
+                        "& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell": {
+                          color: "#939ab5",
+                          borderColor: "#1f2937",
+                        },
+                        "& .MuiDataGrid-columnHeader": {
+                          borderColor: "#1f2937",
+                        },
+                        // change the border color
+                        borderColor: "#1f2937",
+                      }
+                    : {
+                        "& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell": {
+                          color: "black",
+                        },
+                      }
+                }
               />
             ) : (
               <Analytics transactions={searchFilter()} />

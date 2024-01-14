@@ -45,6 +45,8 @@ function AddEditTransactionModal(props) {
         reference: values.reference,
         description: values.description,
       };
+
+      console.log(transUpdateObj);
       message.loading("Editing the Selected Transaction...", 0.5);
       try {
         const response = await editTransaction(transUpdateObj);
