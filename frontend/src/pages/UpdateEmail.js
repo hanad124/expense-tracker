@@ -5,8 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { updateUserEmail } from "../apicalls/users";
 import DefaultLayout from "../components/DefaultLayout";
 import { FiChevronLeft } from "react-icons/fi";
+import { useTheme } from "next-themes";
 
 function UpdateEmail() {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const validateMessages = {
     required: "${label} is required!",
@@ -39,6 +41,10 @@ function UpdateEmail() {
       }, 500);
     }
   };
+
+  const isDarkMode = theme === "dark";
+  console.log(isDarkMode);
+
   return (
     <DefaultLayout>
       <div className="flex justify-center items-center" data-aos="fade-up">
@@ -49,14 +55,34 @@ function UpdateEmail() {
             onClick={() => navigate(-1)}
           >
             <p className="">
-              <FiChevronLeft className="text-xl -mb-[2px] text-slate-600" />
+              <FiChevronLeft
+                className={`text-xl -mb-[2px] text-slate-600 ${
+                  isDarkMode ? "text-slate-300" : "text-slate-600"
+                }`}
+              />
             </p>
-            <p className="text-slate-600 font-medium">Back to Home</p>
+            <p
+              className={`text-slate-600 font-medium ${
+                isDarkMode ? "text-slate-300" : "text-slate-600"
+              }`}
+            >
+              Back to Home
+            </p>
           </div>
 
-          <div className=" shadow-lg p-5 bg-white rounded-md">
+          <div
+            className={` shadow-lg p-5  rounded-md ${
+              isDarkMode ? "bg-background" : "bg-white"
+            }`}
+          >
             <div data-aos="fade-up" className="">
-              <p className="text-slate-700 text-xl font-bold">Update Email</p>
+              <p
+                className={`text-slate-700 text-xl font-bold ${
+                  isDarkMode ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                Update Email
+              </p>
             </div>
             <Form
               layout="vertical"
@@ -68,6 +94,7 @@ function UpdateEmail() {
                 label="Email"
                 name="email"
                 data-aos="fade-up"
+                className={`${isDarkMode ? "text-white" : "text-slate-700"}`}
                 rules={[
                   {
                     required: true,
@@ -75,7 +102,13 @@ function UpdateEmail() {
                   },
                 ]}
               >
-                <Input className="w-full md:min-w-80 h-full py-[10px]" />
+                <Input
+                  className={`w-full md:min-w-80 h-full py-[10px] ${
+                    isDarkMode
+                      ? "bg-background text-slate-300 border-slate-600"
+                      : "bg-white"
+                  }`}
+                />
               </Form.Item>
               <div className="gap-4" data-aos="fade-up">
                 <button

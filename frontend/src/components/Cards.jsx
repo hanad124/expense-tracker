@@ -21,8 +21,10 @@ import {
   getAllTransactions,
 } from "../apicalls/transactions";
 import { getCategories } from "../apicalls/categories";
+import { useTheme } from "next-themes";
 
 const Cards = () => {
+  const { theme } = useTheme();
   const [income, setIncome] = React.useState(0);
   const [expense, setExpense] = React.useState(0);
   const [categories, setCategories] = React.useState(0);
@@ -95,9 +97,15 @@ const Cards = () => {
     getCategoriesCount();
   }, []);
 
+  const isDarkMode = theme === "dark";
+
   return (
     <div className="flex flex-wrap items-center gap-x-2 gap-y-4 w-full">
-      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem]  border-none ring-none outline-none py-0">
+      <Card
+        className={`${
+          isDarkMode ? "dark:border-none" : "borderstyle"
+        } flex-1 w-full md:min-w-[12rem] border-none ring-none outline-none py-0`}
+      >
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -117,7 +125,11 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem] ">
+      <Card
+        className={`${
+          isDarkMode ? "dark:border-none" : "borderstyle"
+        } flex-1 w-full md:min-w-[12rem] border-none ring-none outline-none py-0`}
+      >
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -137,7 +149,11 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem] ">
+      <Card
+        className={`${
+          isDarkMode ? "dark:border-none" : "borderstyle"
+        } flex-1 w-full md:min-w-[12rem] border-none ring-none outline-none py-0`}
+      >
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>
@@ -161,7 +177,11 @@ const Cards = () => {
           </div>
         </div>
       </Card>
-      <Card className="light:cardWidget  dark:border-none flex-1 w-full md:min-w-[12rem] ">
+      <Card
+        className={`${
+          isDarkMode ? "dark:border-none" : "borderstyle"
+        } flex-1 w-full md:min-w-[12rem] border-none ring-none outline-none py-0`}
+      >
         <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>

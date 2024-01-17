@@ -5,8 +5,10 @@ import { Form, Input, message } from "antd";
 import { updateUserPassword } from "../apicalls/users";
 import DefaultLayout from "../components/DefaultLayout";
 import { FiChevronLeft } from "react-icons/fi";
+import { useTheme } from "next-themes";
 
 function UpdatePassword() {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const validateMessages = {
     required: "${label} is required!",
@@ -40,6 +42,8 @@ function UpdatePassword() {
     }
   };
 
+  const isDarkMode = theme === "dark";
+
   return (
     <DefaultLayout>
       <div className="flex justify-center items-center" data-aos="fade-up">
@@ -50,18 +54,34 @@ function UpdatePassword() {
             onClick={() => navigate(-1)}
           >
             <p className="">
-              <FiChevronLeft className="text-xl -mb-[2px] text-slate-600" />
+              <FiChevronLeft
+                className={`text-xl -mb-[2px] text-slate-600 ${
+                  isDarkMode ? "text-slate-300" : "text-slate-600"
+                }`}
+              />
             </p>
-            <p className="text-slate-600 font-medium">Back to Home</p>
+            <p
+              className={`text-slate-600 font-medium ${
+                isDarkMode ? "text-slate-300" : "text-slate-600"
+              }`}
+            >
+              Back to Home
+            </p>
           </div>
           <div
-            className="d-flex justify-content-center align-items-center rounded-md shadow-lg p-5 bg-white"
+            className={`d-flex justify-content-center align-items-center rounded-md shadow-lg p-5 ${
+              isDarkMode ? "bg-background" : "bg-white"
+            }`}
             data-aos="fade-down"
           >
             <div className="  w-full">
               <div data-aos="fade-up" className="mt-2">
                 <div data-aos="fade-up" className="">
-                  <p className="text-slate-700 text-xl font-bold">
+                  <p
+                    className={`text-slate-700 text-xl font-bold ${
+                      isDarkMode ? "text-slate-300" : "text-slate-700"
+                    }`}
+                  >
                     Update Password
                   </p>
                 </div>
@@ -82,7 +102,13 @@ function UpdatePassword() {
                     },
                   ]}
                 >
-                  <Input.Password className="w-full md:min-w-80 h-full py-[8px]" />
+                  <Input.Password
+                    className={`w-full md:min-w-80 h-full py-[8px] bg-none bg-transparent   ${
+                      isDarkMode
+                        ? "bg-none bg-transparent  text-slate-300 border-slate-600"
+                        : ""
+                    }`}
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Confirm New Password"
@@ -94,7 +120,13 @@ function UpdatePassword() {
                     },
                   ]}
                 >
-                  <Input.Password className="w-full md:min-w-80 h-full py-[8px]" />
+                  <Input.Password
+                    className={`w-full md:min-w-80 h-full py-[8px]  ${
+                      isDarkMode
+                        ? "bg-none bg-transparent  text-slate-300 border-slate-600"
+                        : ""
+                    }`}
+                  />
                 </Form.Item>
                 <div className="gap-4" data-aos="">
                   <button

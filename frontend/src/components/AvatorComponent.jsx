@@ -79,12 +79,6 @@ const AvatorComponent = () => {
             >
               Dark
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => setTheme("system")}
-              className="cursor-pointer"
-            >
-              System
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <div className="flex items-center dark:text-slate-400 ">

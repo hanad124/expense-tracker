@@ -41,7 +41,6 @@ import {
 } from "@ant-design/icons";
 import Analytics from "../components/Analytics";
 import { transactionColumns } from "../resources/columns";
-import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 
 const { RangePicker } = DatePicker;
@@ -59,7 +58,6 @@ function Home() {
   const [searchText, setSearchText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -119,98 +117,6 @@ function Home() {
     getTransactionsData();
   }, [frequency, selectedRange, type]);
 
-  // const columns = [
-  //   {
-  //     title: "Type",
-  //     dataIndex: "type",
-  //     render: (text, record) => {
-  //       return record.type;
-  //     },
-  //   },
-  //   {
-  //     title: "Category",
-  //     dataIndex: "category",
-  //     render: (text, record) => {
-  //       return record.category;
-  //     },
-  //   },
-  //   {
-  //     title: "Amount",
-  //     dataIndex: "amount",
-  // render: (text, record) => {
-  //   if (record.type === "expense") {
-  //     return <div style={{ color: "red" }}>- $ {record.amount}</div>;
-  //   } else {
-  //     return <div style={{ color: "green" }}>+ $ {record.amount}</div>;
-  //   }
-  // },
-  //   },
-  //   {
-  //     title: "Reference",
-  //     dataIndex: "reference",
-  //     render: (text, record) => {
-  //       return record.reference;
-  //     },
-  //   },
-  //   {
-  //     title: "Description",
-  //     dataIndex: "description",
-  //     render: (text, record) => {
-  //       return record.description;
-  //     },
-  //   },
-  //   {
-  //     title: "Date",
-  //     dataIndex: "date",
-  //     render: (text, record) => {
-  //       return moment(record.date).format("DD/MM/YYYY");
-  //     },
-  //   },
-  //   {
-  //     title: "Actions",
-  //     render: (text, record) => {
-  //       return (
-  //         <div className="flex gap-2">
-  //           <EditOutlined
-  //             onClick={() => {
-  //               setShowEditTransactionObject(record);
-  //               setShowAddTransactionModel(true);
-  //             }}
-  //           />
-  //           <AlertDialog>
-  //             <AlertDialogTrigger>
-  //               <DeleteOutlined
-  //                 onClick={() => {
-  //                   setIsOpen(true);
-  //                 }}
-  //               />
-  //             </AlertDialogTrigger>
-  //             <AlertDialogContent>
-  //               <AlertDialogHeader>
-  //                 <AlertDialogTitle>Confirmation!</AlertDialogTitle>
-  //                 <AlertDialogDescription>
-  //                   Are you sure you want to delete this transaction?
-  //                 </AlertDialogDescription>
-  //               </AlertDialogHeader>
-  //               <AlertDialogFooter className="flex items-center">
-  //                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-  //                 <AlertDialogAction
-  //                   onClick={() => handleDeleteConfirmation(record)}
-  //                   className="-mb-1"
-  //                 >
-  //                   Delete
-  //                 </AlertDialogAction>
-  //               </AlertDialogFooter>
-  //             </AlertDialogContent>
-  //           </AlertDialog>
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
-
-  // Search Functionality as filter
-
   const actionColumn = [
     {
       field: "action",
@@ -227,7 +133,7 @@ function Home() {
                   setShowAddTransactionModel(true);
                 }}
               />
-              <AlertDialog>
+              <AlertDialog className="border-none">
                 <AlertDialogTrigger>
                   <DeleteOutlined
                     onClick={() => {
@@ -235,18 +141,22 @@ function Home() {
                     }}
                   />
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent className="border-none">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Confirmation!</AlertDialogTitle>
+                    <AlertDialogTitle className="dark:text-slate-300">
+                      Confirmation!
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
                       Are you sure you want to delete this transaction?
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter className="flex items-center">
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className="dark:text-slate-300">
+                      Cancel
+                    </AlertDialogCancel>
                     <AlertDialogAction
                       onClick={() => handleDeleteConfirmation(params.row)}
-                      className="-mb-1"
+                      className="-mb-1 dark:text-slate-300"
                     >
                       Delete
                     </AlertDialogAction>
@@ -290,7 +200,6 @@ function Home() {
 
   useEffect(() => {
     searchFilter();
-    setFilteredData(searchFilter());
   }, [searchText, transactionsData]);
   return (
     <>

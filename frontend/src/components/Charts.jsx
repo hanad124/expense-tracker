@@ -19,6 +19,7 @@ import {
   generateRevenueSeries,
   generatePieChart,
 } from "./chart.config";
+import { useTheme } from "next-themes";
 
 import {
   getAllTransactionsOfUser,
@@ -28,6 +29,7 @@ import { BiDollarCircle, BiChevronRight } from "react-icons/bi";
 import RightChart from "./RightChart";
 
 const ApexChart = () => {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [transactions, setTransactions] = React.useState([]);
   const [series, setSeries] = useState([]);
@@ -49,6 +51,8 @@ const ApexChart = () => {
 
     fetchData();
   }, []);
+
+  const isDarkMode = theme === "dark";
 
   const getTransactions = async () => {
     try {
@@ -79,7 +83,11 @@ const ApexChart = () => {
 
   return (
     <div className="flex flex-col md:flex-row mt-6 gap-2">
-      <Card className="light:cardWidget  dark:border-none  rounded-[15px] p-4 flex flex-col w-full md:max-w-[54%]">
+      <Card
+        className={` ${
+          isDarkMode ? "dark:border-none" : "borderstyle"
+        }  rounded-[15px] p-4 flex flex-col w-full md:max-w-[54%]`}
+      >
         <Typography
           fontSize={18}
           fontWeight={600}

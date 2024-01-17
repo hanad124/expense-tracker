@@ -18,7 +18,7 @@ function DefaultLayout({ children }) {
           <AvatorComponent />
         </div>
         <SheetComponent />
-        <div className=" py-4  bg-slate-100/50 dark:bg-[#091127] px-[10px] md:px-6">
+        <div className="min-h-screen py-4  bg-slate-100/50 dark:bg-[#091127] px-[10px] md:px-6">
           {children}
         </div>
       </div>

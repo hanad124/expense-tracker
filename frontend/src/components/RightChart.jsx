@@ -12,9 +12,8 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Progress } from "./ui/progress";
-// import * as Progress from "@radix-ui/react-progress";
 
-import Stack from "@mui/material/Stack";
+import { useTheme } from "next-themes";
 import {
   ArrowCircleDownRounded,
   ArrowCircleUpRounded,
@@ -35,6 +34,7 @@ import {
 } from "./ui/carousel";
 
 const RightChart = () => {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [transactions, setTransactions] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
@@ -110,7 +110,7 @@ const RightChart = () => {
     getTransactions();
   }, []);
 
-  console.log("categoryAmounts: ", categoryAmounts);
+  const isDarkMode = theme === "dark";
 
   return (
     <>
@@ -126,7 +126,9 @@ const RightChart = () => {
       >
         <CarouselContent className="min-w-fit-content">
           <CarouselItem>
-            <Card className=" light:cardWidget  dark:border-none">
+            <Card
+              className={`${isDarkMode ? "dark:border-none" : "borderstyle"}`}
+            >
               <CardHeader>
                 <CardTitle className="text-slate-700 dark:text-slate-400 text-2xl">
                   Latest Transaction
@@ -250,7 +252,9 @@ const RightChart = () => {
             </Card>
           </CarouselItem>
           <CarouselItem>
-            <Card className=" light:cardWidget  dark:border-none ">
+            <Card
+              className={`${isDarkMode ? "dark:border-none" : "borderstyle"}`}
+            >
               <CardHeader>
                 <CardTitle className="text-slate-700 dark:text-slate-400 text-2xl">
                   User Categories
