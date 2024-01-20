@@ -16,8 +16,10 @@ import {
   BiTransferAlt,
   BiCategory,
 } from "react-icons/bi";
+import { useTheme } from "next-themes";
 
 const Sidebar = () => {
+  const { setTheme } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activePath, setActivePath] = useState(window.location.pathname);
@@ -109,6 +111,7 @@ const Sidebar = () => {
                   message.success("Your Logged Out Successfully");
                   localStorage.removeItem("token");
                   navigate("/login");
+                  setTheme("light");
                 }, 500);
               }}
             >

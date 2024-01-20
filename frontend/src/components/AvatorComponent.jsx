@@ -47,8 +47,6 @@ const AvatorComponent = () => {
     }
   }
 
-  // log the current theme
-
   return (
     <>
       <div className="flex items-center gap-3">
@@ -130,6 +128,7 @@ const AvatorComponent = () => {
                       message.success("Your Logged Out Successfully");
                       localStorage.removeItem("token");
                       navigate("/login");
+                      setTheme("light");
                     }, 500);
                   }}
                   className="flex gap-1 cursor-pointer items-center text-slate-600 dark:text-slate-400"

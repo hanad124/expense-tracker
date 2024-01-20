@@ -34,8 +34,6 @@ const Report = React.forwardRef((props, ref) => {
     setTotalBalance(totalBalance);
   }, [totalIncome, totalExpense]);
 
-  console.log(totalIncome, totalExpense, totalBalance);
-
   const oldestDate = new Date(Math.min(...dates));
   const newestDate = new Date(Math.max(...dates));
 

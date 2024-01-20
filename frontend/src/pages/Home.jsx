@@ -42,6 +42,7 @@ import {
 import Analytics from "../components/Analytics";
 import { transactionColumns } from "../resources/columns";
 import { useTheme } from "next-themes";
+import exportExcelFile from "../providers/exportExcelFile";
 
 const { RangePicker } = DatePicker;
 
@@ -197,6 +198,11 @@ function Home() {
         .map((item, index) => ({ ...item, id: index }));
     }
   };
+  const newestDate = searchFilter()[0]?.date;
+  const oldestDate = searchFilter()[searchFilter().length - 1]?.date;
+  const handleExportExcel = () => {
+    exportExcelFile(searchFilter(), oldestDate, newestDate);
+  };
 
   useEffect(() => {
     searchFilter();
@@ -321,7 +327,9 @@ function Home() {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    // onClick={() => setShow(true)}
+                    onClick={() => {
+                      handleExportExcel();
+                    }}
                     className="flex cursor-pointer items-center text-slate-600 gap-1"
                   >
                     <FiDownload className="w-6 font-bold text-lg" />
