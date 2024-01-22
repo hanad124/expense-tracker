@@ -23,7 +23,7 @@ router.post("/verifyemail", verifyemail);
 router.post("/verifyEmailLink", verifyEmailLink);
 router.get("/get-user-info", authMiddleware, getUserInfo);
 router.put("/update-user-name", authMiddleware, updateUserName);
-router.put("/update-user-info", authMiddleware, updateProfile);
+router.put("/update-user-image", authMiddleware, updateProfile);
 router.put("/update-user-email", authMiddleware, updateUserEmail);
 router.put("/update-user-password", authMiddleware, updateUserPassword);
 

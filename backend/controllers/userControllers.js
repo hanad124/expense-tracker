@@ -260,41 +260,47 @@ const getUserInfo = async (req, res) => {
 //   }
 // };
 
+// update user profile image without using cloudinary, just save image in mongodb database
 const updateProfile = async (req, res) => {
   try {
-    const image = req.body.image;
+    const image = req.body;
+    console.log(image);
     const user = await User.findOne({ _id: req.body.userid });
-
+    let uploadedImage;
+    let uploadedImageSecureURL = user.profilePicture;
     if (user.profilePicture !== image) {
-      const client = await MongoClient.connect("mongodb://localhost:27017");
-      const db = client.db("expense_tracker");
-
-      const bucket = new GridFSBucket(db);
-
-      const imageBuffer = Buffer.from(image, "base64");
-
-      const uploadStream = bucket.openUploadStream(user._id.toString());
-
-      uploadStream.write(imageBuffer);
-
-      uploadStream.end();
-
-      const uploadedImageId = uploadStream.id;
-
-      const uploadedImageSecureURL = `/images/${uploadedImageId}`;
-
-      user.profilePicture = uploadedImageSecureURL;
+      //upload image to mongodb database not cloudinary
+      const client = await MongoClient.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      const db = client.db("expense-tracker");
+      const bucket = new GridFSBucket(db, {
+        bucketName: "profileImages",
+      });
+      const uploadStream = bucket.openUploadStream("profileImage.png");
+      const data = Buffer.from(image, "base64");
+      const readStream = new Readable();
+      readStream.push(data);
+      readStream.push(null);
+      readStream.pipe(uploadStream);
+      uploadedImage = await new Promise((resolve, reject) => {
+        uploadStream.on("error", reject);
+        uploadStream.on("finish", resolve);
+      });
+      uploadedImageSecureURL = `http://localhost:5000/api/profile/image/${uploadStream.id}`;
+      client.close();
     }
-
-    user.description = req.body.desc;
-
-    await user.save();
-
-    res.status(200).send({
-      message: "User Profile Updated Successfully.",
-      data: user,
-      success: true,
-    });
+    if (user) {
+      user.profilePicture = uploadedImageSecureURL;
+      user.description = req.body.desc;
+      await user.save();
+      res.status(200).send({
+        message: "User Profile Updated Successfully.",
+        data: user,
+        success: true,
+      });
+    }
   } catch (error) {
     res.status(400).send({
       message: error.message,
@@ -419,6 +425,7 @@ module.exports = {
   getUserInfo,
   verifyEmailLink,
   updateUserName,
+  updateProfile,
   updateProfile,
   updateUserEmail,
   updateUserPassword,

@@ -100,6 +100,18 @@ export const updateUserInfo = async (payload) => {
     return error.response.data;
   }
 };
+export const updateUserImage = async (payload) => {
+  try {
+    const response = await axiosInstance.put(
+      "/api/users/update-user-image",
+      payload
+    );
+    console.log(response);
+    // return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 
 export const updateUserEmail = async (payload) => {
   try {
