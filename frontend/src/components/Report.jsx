@@ -134,8 +134,8 @@ const Report = React.forwardRef((props, ref) => {
         {/* banner */}
 
         <div className="flex justify-end w-full mt-1">
-          <div className="w-72 mx-w-72 p-5 ">
-            <div className="flex justify-between border-b border-dashed border-b-slate-500 mb-1">
+          <div className="w-60 mx-w-72 py-5">
+            <div className="flex justify-between border-b border-dashed border-b-slate-400 mb-1">
               <div className="flex flex-col gap-1 text-slate-800 font-medium">
                 <p>Total Income : </p>
                 <p>Total Expenes : </p>
@@ -151,7 +151,13 @@ const Report = React.forwardRef((props, ref) => {
                 <p>Total Balance : </p>
               </div>
               <div className="flex flex-col gap-1 text-slate-800 font-medium">
-                <p>${totalBalance}</p>
+                <p>
+                  {totalIncome > totalExpense ? (
+                    <span className="">${totalIncome - totalExpense}</span>
+                  ) : (
+                    <span className="">- ${totalExpense - totalIncome}</span>
+                  )}
+                </p>
               </div>
             </div>
           </div>

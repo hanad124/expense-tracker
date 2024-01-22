@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("../utils/sendEmail");
 const cloudinary = require("../cloudinary");
 const Token = require("../models/tokenModel");
+const { MongoClient, GridFSBucket } = require("mongodb");
 
 const register = async (req, res) => {
   try {
@@ -230,29 +231,70 @@ const getUserInfo = async (req, res) => {
 };
 
 //update user profile info
+// const updateProfile = async (req, res) => {
+//   try {
+//     const image = req.body.image;
+//     const user = await User.findOne({ _id: req.body.userid });
+//     let uploadedImage;
+//     let uploadedImageSecureURL = user.profilePicture;
+//     if (user.profilePicture !== image) {
+//       //upload image to mongodb database not cloudinary
+
+//     }
+//     if (user) {
+//       user.profilePicture = uploadedImageSecureURL;
+//       user.description = req.body.desc;
+//       await user.save();
+//       res.status(200).send({
+//         message: "User Profile Updated Successfully.",
+//         data: user,
+//         success: true,
+//       });
+//     }
+//   } catch (error) {
+//     res.status(400).send({
+//       message: error.message,
+//       data: error,
+//       success: false,
+//     });
+//   }
+// };
+
 const updateProfile = async (req, res) => {
   try {
     const image = req.body.image;
     const user = await User.findOne({ _id: req.body.userid });
-    let uploadedImage;
-    let uploadedImageSecureURL = user.profilePicture;
+
     if (user.profilePicture !== image) {
-      //upload image to cloudinary and get URL
-      uploadedImage = await cloudinary.uploader.upload(image, {
-        folder: "cdac_project",
-      });
-      uploadedImageSecureURL = uploadedImage.secure_url;
-    }
-    if (user) {
+      const client = await MongoClient.connect("mongodb://localhost:27017");
+      const db = client.db("expense_tracker");
+
+      const bucket = new GridFSBucket(db);
+
+      const imageBuffer = Buffer.from(image, "base64");
+
+      const uploadStream = bucket.openUploadStream(user._id.toString());
+
+      uploadStream.write(imageBuffer);
+
+      uploadStream.end();
+
+      const uploadedImageId = uploadStream.id;
+
+      const uploadedImageSecureURL = `/images/${uploadedImageId}`;
+
       user.profilePicture = uploadedImageSecureURL;
-      user.description = req.body.desc;
-      await user.save();
-      res.status(200).send({
-        message: "User Profile Updated Successfully.",
-        data: user,
-        success: true,
-      });
     }
+
+    user.description = req.body.desc;
+
+    await user.save();
+
+    res.status(200).send({
+      message: "User Profile Updated Successfully.",
+      data: user,
+      success: true,
+    });
   } catch (error) {
     res.status(400).send({
       message: error.message,
@@ -261,6 +303,9 @@ const updateProfile = async (req, res) => {
     });
   }
 };
+
+// update user name
+
 
 const updateUserEmail = async (req, res) => {
   try {

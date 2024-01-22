@@ -129,7 +129,6 @@ function Home() {
             <div className="flex gap-3">
               <EditOutlined
                 onClick={() => {
-                  console.log(params.row);
                   setShowEditTransactionObject(params.row);
                   setShowAddTransactionModel(true);
                 }}
@@ -225,8 +224,16 @@ function Home() {
             <span> Add Transaction</span>
           </button>
         </div>
-        <div className="light:border dark:border-none    rounded-md  dark:bg-background ">
-          <div className=" flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
+        <div
+          className={` rounded-md
+        ${
+          isDarkMode
+            ? "bg-background  border-slate-600"
+            : " border overflow-hidden bg-white"
+        }
+        `}
+        >
+          <div className="border-b flex flex-wrap px-2 py-3 gap-3 shadow-none mb-2 flex-col md:flex-row ">
             <div className="flex flex-wrap gap-3 flex-1 items-center ">
               <div className="flex flex-column w-full md:w-64 bg-none bg-transparent">
                 {/* <h5>Select Frequency</h5> */}
@@ -344,23 +351,27 @@ function Home() {
           <div className={` ${isDarkMode ? "bg-background" : "bg-white"}`}>
             {viewType === "table" ? (
               <DataGrid
-                className=" dark:bg-background"
+                className=" dark:bg-background border-none"
                 rows={searchFilter()}
                 columns={transactionColumns.concat(actionColumn)}
                 sx={
                   isDarkMode
                     ? {
+                        border: "none",
                         "& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell": {
                           color: "#939ab5",
-                          borderColor: "#1f2937",
+
+                          borderColor: "#939ab5",
                         },
                         "& .MuiDataGrid-columnHeader": {
-                          borderColor: "#1f2937",
+                          // borderColor: "#1f2937",
+                          border: "none",
                         },
                         // change the border color
-                        borderColor: "#1f2937",
+                        // borderColor: "#1f2937",
                       }
                     : {
+                        border: "none",
                         "& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell": {
                           color: "black",
                         },
