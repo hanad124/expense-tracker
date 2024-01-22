@@ -42,11 +42,9 @@ function AddEditTransactionModal(props) {
         type: values.type,
         category: values.category,
         date: values.date,
-        reference: values.reference,
         description: values.description,
       };
 
-      console.log(transUpdateObj);
       message.loading("Editing the Selected Transaction...", 0.5);
       try {
         const response = await editTransaction(transUpdateObj);
@@ -172,17 +170,6 @@ function AddEditTransactionModal(props) {
           ]}
         >
           <Input type="date" />
-        </Form.Item>
-        <Form.Item
-          label="Reference"
-          name="reference"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
         </Form.Item>
         <Form.Item
           label="Description"

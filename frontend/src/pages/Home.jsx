@@ -190,7 +190,6 @@ function Home() {
               .toString()
               .toLowerCase()
               .includes(searchText.toLowerCase()) ||
-            item.reference.toLowerCase().includes(searchText.toLowerCase()) ||
             item.description.toLowerCase().includes(searchText.toLowerCase())
           );
         })

@@ -9,7 +9,6 @@ const addTransaction = async (req, res) => {
       type: req.body.type,
       category: req.body.category,
       date: req.body.date,
-      reference: req.body.reference,
       description: req.body.description,
     });
     await transaction.save();
