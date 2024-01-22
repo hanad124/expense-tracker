@@ -305,7 +305,26 @@ const updateProfile = async (req, res) => {
 };
 
 // update user name
-
+const updateUserName = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.body.userid });
+    if (user) {
+      user.name = req.body.name;
+      await user.save();
+      res.send({
+        data: null,
+        message: `Your Name Changed to ${req.body.name} Successfully.`,
+        success: true,
+      });
+    }
+  } catch (error) {
+    res.send({
+      data: error,
+      message: error.message,
+      success: false,
+    });
+  }
+};
 
 const updateUserEmail = async (req, res) => {
   try {
@@ -399,6 +418,7 @@ module.exports = {
   verifyemail,
   getUserInfo,
   verifyEmailLink,
+  updateUserName,
   updateProfile,
   updateUserEmail,
   updateUserPassword,

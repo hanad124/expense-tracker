@@ -76,6 +76,19 @@ export const getUserInfo = async () => {
   }
 };
 
+export const updateUserName = async (payload) => {
+  try {
+    const response = await axiosInstance.put(
+      "/api/users/update-user-name",
+      payload
+    );
+    console.log(response);
+    // return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const updateUserInfo = async (payload) => {
   try {
     const response = await axiosInstance.put(
