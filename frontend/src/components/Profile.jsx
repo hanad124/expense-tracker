@@ -1,18 +1,21 @@
-import {
-  addDoc,
-  getDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../redux/actions/userActions";
+
 import { message } from "antd";
-import { updateUserName, updateUserImage } from "../apicalls/users";
+import {
+  updateUserName,
+  updateUserImage,
+  getUserInfo,
+} from "../apicalls/users";
+import {
+  getAllTransactionsOfUser,
+  getAllTransactions,
+} from "../apicalls/transactions";
+import numberFormat from "../providers/numbFormatter";
 
 import noImage from "../assets/no-image.jpeg";
 
@@ -23,8 +26,9 @@ function Profile(props) {
   const [name, setName] = useState(user?.name);
   const [editingName, setEditingName] = useState(false);
   const [image, setImage] = useState(null);
-
-  console.log(user);
+  const [loading, setLoading] = useState(false);
+  const [income, setIncome] = useState(0);
+  const [expense, setExpense] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -48,6 +52,7 @@ function Profile(props) {
       const updatedUser = await updateUserName(updateObject);
       dispatch({ type: "UPDATE_USER_INFO", payload: updatedUser });
       message.success("Username updated successfully.");
+      dispatch(getUserDetails(updatedUser.data));
     } catch (error) {
       message.error("Failed to update username.");
     }
@@ -65,12 +70,14 @@ function Profile(props) {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
               console.log("Upload is paused");
               break;
             case "running":
+              setLoading(true);
               console.log("Upload is running");
               break;
           }
@@ -82,6 +89,7 @@ function Profile(props) {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImage(downloadURL);
           });
+          setLoading(false);
         }
       );
     };
@@ -98,6 +106,9 @@ function Profile(props) {
         const updatedUser = await updateUserImage(updateObject);
         dispatch({ type: "UPDATE_USER_INFO", payload: updatedUser });
         message.success("Profile image updated successfully.");
+        dispatch(getUserDetails(updatedUser.data));
+
+        handleClose();
       } catch (error) {
         message.error("Failed to update profile image.");
       }
@@ -105,54 +116,134 @@ function Profile(props) {
     image && saveImageToDatabase();
   }, [image]);
 
+  const getIncome = async () => {
+    try {
+      const data = await getAllTransactions();
+
+      if (data.data.error) {
+        console.error(data.data.error);
+        return;
+      }
+
+      const income = data.data.reduce((totalIncome, transaction) => {
+        if (transaction.type === "income") {
+          return totalIncome + transaction.amount;
+        }
+        return totalIncome;
+      }, 0);
+
+      setIncome(income);
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  const getExpense = async () => {
+    try {
+      const data = await getAllTransactions();
+
+      if (data.data.error) {
+        console.error(data.data.error);
+        return;
+      }
+
+      const expense = data.data.reduce((totalExpense, transaction) => {
+        if (transaction.type === "expense") {
+          return totalExpense + transaction.amount;
+        }
+        return totalExpense;
+      }, 0);
+
+      setExpense(expense);
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getIncome();
+    getExpense();
+  }, []);
+
   return (
     <>
-      <Modal show={show} onHide={handleClose} className="special_modal">
-        <div className="max-w-2xl sm:max-w-sm  xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto my-16  bg-white shadow-xl rounded-lg text-gray-900  dark:bg-[#181e2f] px-3">
-          <div className="mx-auto  w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden bg-white ">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="mt-4 w-full bg-red-500 absolute z-20 h-full opacity-0 cursor-pointer"
-            />{" "}
-            <img
-              className="object-cover object-center h-32 relative z-10"
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : user?.profilePicture || noImage
-              }
-              alt="Profile"
-            />
-          </div>
-          <div className="text-center mt-2 mx-2">
-            {editingName ? (
+      <Modal
+        show={show}
+        onHide={loading ? null : handleClose}
+        className="special_modal"
+      >
+        <div className="dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-white bg-cover bg-clip-border p-[16px] dark:text-white dark:shadow-none rounded-md">
+          <div
+            className="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover"
+            style={{
+              backgroundImage: "url(https://i.ibb.co/FWggPq1/banner.png)",
+            }}
+          >
+            <div className="absolute -bottom-12 flex h-[88px] w-[88px] items-center justify-center rounded-full overflow-hidden border-[4px] border-white bg-pink-400">
               <input
-                type="text"
-                value={name}
-                onChange={handleNameChange}
-                onBlur={handleNameBlur}
+                type="file"
+                accept="image/*"
+                onChange={(e) => setFile(e.target.files[0])}
+                className="py-20 w-full absolute z-20 h-full top-0 opacity-0 cursor-pointer"
+              />{" "}
+              <img
+                className="h-32 object-cover object-center w-full relative z-10 "
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : user?.profilePicture || noImage
+                }
+                alt=""
               />
+            </div>
+          </div>
+          <div className="mt-16 flex flex-col items-center">
+            {editingName ? (
+              <>
+                {" "}
+                <input
+                  type="text"
+                  className="text-slate-700 text-xl font-bold bg-transparent border-non focus:outline-none focus:ring-0 focus:border-transparent"
+                  value={name}
+                  onChange={handleNameChange}
+                  onBlur={handleNameBlur}
+                />
+                <p className="text-gray-500">{user?.email}</p>
+              </>
             ) : (
               <>
-                <h2
-                  className="font-semibold"
+                <h4
+                  className="text-slate-700 text-xl font-bold"
                   onClick={() => setEditingName(true)}
                 >
                   {user?.name}
-                </h2>
+                </h4>
                 <p className="text-gray-500">{user?.email}</p>
               </>
             )}
           </div>
-          <div className="p-4 border-t border-slate-300 mx-8 mt-2">
-            <button
-              className="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2"
-              onClick={handleClose}
-            >
-              Close
-            </button>
+          <div className="mt-6 mb-3 flex gap-4 md:!gap-14">
+            <div className="flex flex-col items-center justify-center">
+              <h3 className="text-slate-700 text-2xl font-bold">
+                ${numberFormat(income)}
+              </h3>
+              <p className="text-slate-500 text-sm font-normal">Income</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <h3 className="text-slate-700 text-2xl font-bold">
+                ${numberFormat(expense)}
+              </h3>
+              <p className="text-slate-500 text-sm font-normal">Expense</p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <h3 className="text-slate-700 text-2xl font-bold">
+                $
+                {income > expense
+                  ? numberFormat(income - expense)
+                  : numberFormat(expense - income)}
+              </h3>
+              <p className="text-slate-500 text-sm font-normal">Balance</p>
+            </div>
           </div>
         </div>
       </Modal>
