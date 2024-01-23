@@ -26,6 +26,7 @@ const AvatorComponent = () => {
   const [show, setShow] = useState(false);
   const { user } = useSelector((state) => state.getUserInfoReducer);
   const name = user?.name;
+  const avatar = user?.profilePicture;
 
   const handleClose = () => {
     setShow(false);
@@ -85,7 +86,11 @@ const AvatorComponent = () => {
               <DropdownMenuTrigger className="">
                 <div className=" border-slate-400 border-[1px] dark:border-slate-600 dark:border-[1px] rounded-full p-[1.4px]">
                   <Avatar>
-                    <AvatarFallback>{initials}</AvatarFallback>
+                    {avatar ? (
+                      <AvatarImage src={avatar} alt="avatar" />
+                    ) : (
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    )}
                   </Avatar>{" "}
                 </div>
               </DropdownMenuTrigger>

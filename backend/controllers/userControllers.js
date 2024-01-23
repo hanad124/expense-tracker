@@ -263,37 +263,12 @@ const getUserInfo = async (req, res) => {
 // update user profile image without using cloudinary, just save image in mongodb database
 const updateProfile = async (req, res) => {
   try {
-    const image = req.body;
-    console.log(image);
+    const image = req.body.profileImage;
+
     const user = await User.findOne({ _id: req.body.userid });
-    let uploadedImage;
-    let uploadedImageSecureURL = user.profilePicture;
-    if (user.profilePicture !== image) {
-      //upload image to mongodb database not cloudinary
-      const client = await MongoClient.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-      const db = client.db("expense-tracker");
-      const bucket = new GridFSBucket(db, {
-        bucketName: "profileImages",
-      });
-      const uploadStream = bucket.openUploadStream("profileImage.png");
-      const data = Buffer.from(image, "base64");
-      const readStream = new Readable();
-      readStream.push(data);
-      readStream.push(null);
-      readStream.pipe(uploadStream);
-      uploadedImage = await new Promise((resolve, reject) => {
-        uploadStream.on("error", reject);
-        uploadStream.on("finish", resolve);
-      });
-      uploadedImageSecureURL = `http://localhost:5000/api/profile/image/${uploadStream.id}`;
-      client.close();
-    }
+
     if (user) {
-      user.profilePicture = uploadedImageSecureURL;
-      user.description = req.body.desc;
+      user.profilePicture = image;
       await user.save();
       res.status(200).send({
         message: "User Profile Updated Successfully.",
