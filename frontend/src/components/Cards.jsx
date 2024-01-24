@@ -16,10 +16,7 @@ import {
   BiFile,
   BiCategory,
 } from "react-icons/bi";
-import {
-  getAllTransactionsOfUser,
-  getAllTransactions,
-} from "../apicalls/transactions";
+import { getAllTransactions } from "../apicalls/transactions";
 import { getCategories } from "../apicalls/categories";
 import { useTheme } from "next-themes";
 

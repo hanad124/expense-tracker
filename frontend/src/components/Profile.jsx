@@ -11,15 +11,14 @@ import {
   updateUserImage,
   getUserInfo,
 } from "../apicalls/users";
-import {
-  getAllTransactionsOfUser,
-  getAllTransactions,
-} from "../apicalls/transactions";
+import { getAllTransactions } from "../apicalls/transactions";
 import numberFormat from "../providers/numbFormatter";
+import { useTheme } from "next-themes";
 
 import noImage from "../assets/no-image.jpeg";
 
 function Profile(props) {
+  const { theme } = useTheme();
   const { show, setShow, handleClose, handleShow } = props;
   const [file, setFile] = useState("");
   const { user } = useSelector((state) => state.getUserInfoReducer);
@@ -31,6 +30,7 @@ function Profile(props) {
   const [expense, setExpense] = useState(0);
 
   const dispatch = useDispatch();
+  const isDarkMode = theme === "dark";
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -172,14 +172,24 @@ function Profile(props) {
         onHide={loading ? null : handleClose}
         className="special_modal"
       >
-        <div className="dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-white bg-cover bg-clip-border p-[16px] dark:text-white dark:shadow-none rounded-md">
+        <div
+          className={`dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-cover bg-clip-border p-[16px] rounded-md ${
+            isDarkMode
+              ? "dark:border-none bg-background  text-white"
+              : "bg-white borderstyle"
+          }`}
+        >
           <div
             className="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover"
             style={{
               backgroundImage: "url(https://i.ibb.co/FWggPq1/banner.png)",
             }}
           >
-            <div className="absolute -bottom-12 flex h-[88px] w-[88px] items-center justify-center rounded-full overflow-hidden border-[4px] border-white bg-pink-400">
+            <div
+              className={`absolute -bottom-12 flex h-[88px] w-[88px] items-center justify-center rounded-full overflow-hidden border-[4px]  bg-pink-400 ${
+                isDarkMode ? "border-background" : "border-white"
+              }`}
+            >
               <input
                 type="file"
                 accept="image/*"
@@ -203,7 +213,9 @@ function Profile(props) {
                 {" "}
                 <input
                   type="text"
-                  className="text-slate-700 text-xl font-bold bg-transparent border-non focus:outline-none focus:ring-0 focus:border-transparent"
+                  className={` text-xl font-bold bg-transparent border-non focus:outline-none focus:ring-0 focus:border-transparent ${
+                    isDarkMode ? "text-slate-300" : "text-slate-700"
+                  }`}
                   value={name}
                   onChange={handleNameChange}
                   onBlur={handleNameBlur}
@@ -213,30 +225,50 @@ function Profile(props) {
             ) : (
               <>
                 <h4
-                  className="text-slate-700 text-xl font-bold"
+                  className={`text-xl font-bold ${
+                    isDarkMode ? "text-slate-300" : "text-slate-700"
+                  }`}
                   onClick={() => setEditingName(true)}
                 >
                   {user?.name}
                 </h4>
-                <p className="text-gray-500">{user?.email}</p>
+                <p
+                  className={`text-gray-500 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
+                  {user?.email}
+                </p>
               </>
             )}
           </div>
           <div className="mt-6 mb-3 flex gap-4 md:!gap-14">
             <div className="flex flex-col items-center justify-center">
-              <h3 className="text-slate-700 text-2xl font-bold">
+              <h3
+                className={` text-2xl font-bold ${
+                  isDarkMode ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
                 ${numberFormat(income)}
               </h3>
               <p className="text-slate-500 text-sm font-normal">Income</p>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <h3 className="text-slate-700 text-2xl font-bold">
+              <h3
+                className={` text-2xl font-bold ${
+                  isDarkMode ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
                 ${numberFormat(expense)}
               </h3>
               <p className="text-slate-500 text-sm font-normal">Expense</p>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <h3 className="text-slate-700 text-2xl font-bold">
+              <h3
+                className={` text-2xl font-bold ${
+                  isDarkMode ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
                 $
                 {income > expense
                   ? numberFormat(income - expense)
