@@ -138,7 +138,7 @@ const Report = React.forwardRef((props, ref) => {
             <div className="flex justify-between border-b border-dashed border-b-slate-400 mb-1">
               <div className="flex flex-col gap-1 text-slate-800 font-medium">
                 <p>Total Income : </p>
-                <p>Total Expenes : </p>
+                <p>Total Expense : </p>
               </div>
               <div className="flex flex-col gap-1 text-slate-800 font-medium">
                 <p>${totalIncome}</p>

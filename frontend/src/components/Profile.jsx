@@ -11,6 +11,7 @@ import {
   updateUserImage,
   getUserInfo,
 } from "../apicalls/users";
+import { BiLoaderAlt } from "react-icons/bi";
 import { getAllTransactions } from "../apicalls/transactions";
 import numberFormat from "../providers/numbFormatter";
 import { useTheme } from "next-themes";
@@ -173,12 +174,20 @@ function Profile(props) {
         className="special_modal"
       >
         <div
-          className={`dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-cover bg-clip-border p-[16px] rounded-md ${
+          className={`dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-cover bg-clip-border p-[16px] rounded-md overflow-hidden ${
             isDarkMode
               ? "dark:border-none bg-background  text-white"
               : "bg-white borderstyle"
           }`}
         >
+          {loading && (
+            <div className="w-full h-full absolute top-0 left-0 bg-black/30 z-30 cursor-wait">
+              <div className="w-full h-full flex items-center justify-center">
+                <BiLoaderAlt className="animate-spin text-4xl text-white" />
+              </div>
+            </div>
+          )}
+
           <div
             className="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover"
             style={{
