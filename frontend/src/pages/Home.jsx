@@ -183,6 +183,7 @@ function Home() {
           return (
             new Date(item.date)
               .toLocaleDateString()
+              .slice(4, 16)
               .includes(searchText.toLowerCase()) ||
             item.type.toLowerCase().includes(searchText.toLowerCase()) ||
             item.category.toLowerCase().includes(searchText.toLowerCase()) ||

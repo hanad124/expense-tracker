@@ -260,7 +260,7 @@ const updateUserName = async (req, res) => {
       user.name = req.body.name;
       await user.save();
       res.send({
-        data: null,
+        data: req.body,
         message: `Your Name Changed to ${req.body.name} Successfully.`,
         success: true,
       });

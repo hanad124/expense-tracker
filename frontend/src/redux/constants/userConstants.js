@@ -1,2 +1,3 @@
 export const GET_USER_INFO = "GET_USER_INFO";
 export const REMOVE_USER_INFO = "REMOVE_USER_INFO";
+export const GET_USER_NAME = "GET_USER_NAME";

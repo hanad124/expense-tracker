@@ -83,7 +83,7 @@ export const updateUserName = async (payload) => {
       payload
     );
     console.log(response);
-    // return response.data;
+    return response.data;
   } catch (error) {
     return error.response.data;
   }

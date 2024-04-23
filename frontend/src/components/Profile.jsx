@@ -3,7 +3,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../redux/actions/userActions";
+import { getUserDetails, getUserName } from "../redux/actions/userActions";
 
 import { message } from "antd";
 import {
@@ -51,9 +51,9 @@ function Profile(props) {
         name: name,
       };
       const updatedUser = await updateUserName(updateObject);
-      dispatch({ type: "UPDATE_USER_INFO", payload: updatedUser });
+      dispatch({ type: "UPDATE_USER_NAME", payload: updatedUser });
       message.success("Username updated successfully.");
-      dispatch(getUserDetails(updatedUser.data));
+      dispatch(getUserName(updatedUser.data));
     } catch (error) {
       message.error("Failed to update username.");
     }
@@ -174,14 +174,12 @@ function Profile(props) {
         className="special_modal"
       >
         <div
-          className={`dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-cover bg-clip-border p-[16px] rounded-md overflow-hidden ${
-            isDarkMode
-              ? "dark:border-none bg-background  text-white"
-              : "bg-white borderstyle"
+          className={`dark:!bg-navy-800 shadow-shadow-500 shadow-3xl rounded-primary relative mx-auto flex h-full w-full max-w-[550px] flex-col items-center bg-cover border-none  p-[16px] rounded-md overflow-hidden ${
+            isDarkMode ? " bg-background  text-white" : "bg-white borderstyle"
           }`}
         >
           {loading && (
-            <div className="w-full h-full absolute top-0 left-0 bg-black/30 z-30 cursor-wait">
+            <div className="w-full h-full absolute top-0 left-0 bg-black/50 z-30 cursor-wait">
               <div className="w-full h-full flex items-center justify-center">
                 <BiLoaderAlt className="animate-spin text-4xl text-white" />
               </div>

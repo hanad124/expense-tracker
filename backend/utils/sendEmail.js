@@ -35,7 +35,6 @@ module.exports = async (user, mailType) => {
 
     let emailContent, mailOptions;
     if (mailType == "verifyemail") {
-      console.log(user);
       emailContent = `
         <div style="font-family: Arial, sans-serif; background-color: #f8f8f8; padding: 20px;">
           <div style="background-color: #ffffff; padding: 20px; border-radius: 5px;">

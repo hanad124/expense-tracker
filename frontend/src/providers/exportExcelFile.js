@@ -3,8 +3,6 @@ import ExcelJS from "exceljs";
 const exportExcelFile = (data, startDate, endDate) => {
   const fileName = `Transaction report | ${startDate} - ${endDate}.xlsx`;
 
-  console.log("data", data);
-
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Transaction report");
 
@@ -22,16 +20,17 @@ const exportExcelFile = (data, startDate, endDate) => {
     return accumulator + currentTransaction.amount;
   }, 0);
 
-  // row styles
-  const rowStyle = {
-    font: { color: { argb: "000000" } },
-    // fill: { type: "pattern", pattern: "solid", fgColor: { argb: "fff" } },
+  // Header style
+  const headerStyle = {
+    font: { bold: true, color: { argb: "000000" } },
     alignment: { vertical: "middle", horizontal: "center" },
-    // height: 30,
   };
 
-  // // Starting row for header and data rows
-  let rowIndex = 100;
+  // Row styles
+  const rowStyle = {
+    font: { color: { argb: "000000" } },
+    alignment: { vertical: "middle", horizontal: "center" },
+  };
 
   // Set column headers
   worksheet.columns = [
@@ -39,38 +38,21 @@ const exportExcelFile = (data, startDate, endDate) => {
       header: "Transaction Type",
       key: "type",
       width: 20,
-      style: rowStyle,
+      style: headerStyle,
     },
-    { header: "Category", key: "category", width: 20, style: rowStyle },
+    { header: "Category", key: "category", width: 20, style: headerStyle },
+    { header: "Amount", key: "amount", width: 20, style: headerStyle },
     {
-      header: "Amount",
-      key: "amount",
-      width: 20,
-      style: rowStyle,
+      header: "Description",
+      key: "description",
+      width: 40,
+      style: headerStyle,
     },
-    { header: "Description", key: "description", width: 40, style: rowStyle },
-    { header: "date", key: "date", width: 20, style: rowStyle },
+    { header: "date", key: "date", width: 20, style: headerStyle },
   ];
 
-  // // Row styles for data rows
-  const evenRowStyle = {
-    font: { color: { argb: "000000" } },
-    fill: { type: "pattern", pattern: "solid", fgColor: { argb: "EDF2F7" } },
-    alignment: { vertical: "middle", horizontal: "center" },
-    height: 30,
-  };
-
-  const oddRowStyle = {
-    font: { color: { argb: "000000" } },
-    fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFF" } },
-    alignment: { vertical: "middle", horizontal: "center" },
-    height: 30,
-  };
-
-  // // Add data rows
+  // Add data rows
   data.forEach((transaction, index) => {
-    const rowStyle = index % 2 === 0 ? evenRowStyle : oddRowStyle;
-
     const row = worksheet.addRow({
       type: transaction.type,
       category: transaction.category,
@@ -85,11 +67,9 @@ const exportExcelFile = (data, startDate, endDate) => {
         cell.style = rowStyle;
       }
     });
-
-    rowIndex++;
   });
 
-  // // Add total row
+  // Add total row
   const totalRow = worksheet.addRow({
     type: "",
     category: "",
@@ -98,16 +78,15 @@ const exportExcelFile = (data, startDate, endDate) => {
     amount: total,
   });
 
-  // // Apply a unique style to the total row
+  // Apply a unique and bold style to the total row
   totalRow.eachCell((cell) => {
     cell.style = {
       font: { bold: true, color: { argb: "000000" } },
-      // fill: { type: "pattern", pattern: "solid", fgColor: { argb: "EDF2F7" } },
       alignment: { vertical: "middle", horizontal: "center" },
     };
   });
 
-  // // Generate Excel File with given name
+  // Generate Excel File with given name
   workbook.xlsx.writeBuffer().then((buffer) => {
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
